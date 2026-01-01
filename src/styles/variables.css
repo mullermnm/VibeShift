@@ -1,28 +1,73 @@
 /**
- * CSS Custom Properties (CSS Variables)
- * These are overridden dynamically by MoodEngine via JavaScript
+ * VibeShift - CSS Custom Properties
+ * HSL-based design system for dynamic mood theming
+ * Following 60-30-10 color rule with glassmorphism
  */
 
 :root {
-  /* Colors - Default to Focused mood */
-  --color-primary: #2C3E50;
-  --color-secondary: #ECF0F1;
-  --color-accent: #3498DB;
-  --color-background: #FFFFFF;
-  --color-text: #2C3E50;
-  --color-text-muted: rgba(44, 62, 80, 0.6);
+  /* ============================================
+     HSL COLOR SYSTEM
+     ============================================ */
   
-  /* Typography */
-  --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Primary HSL values (overridden per mood) */
+  --color-primary-h: 210;
+  --color-primary-s: 30%;
+  --color-primary-l: 25%;
+  
+  --color-secondary-h: 210;
+  --color-secondary-s: 15%;
+  --color-secondary-l: 85%;
+  
+  --color-accent-h: 168;
+  --color-accent-s: 45%;
+  --color-accent-l: 45%;
+  
+  /* Computed HSL colors */
+  --color-primary: hsl(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l));
+  --color-secondary: hsl(var(--color-secondary-h), var(--color-secondary-s), var(--color-secondary-l));
+  --color-accent: hsl(var(--color-accent-h), var(--color-accent-s), var(--color-accent-l));
+  
+  /* Text colors */
+  --color-text: #ffffff;
+  --color-text-muted: rgba(255, 255, 255, 0.6);
+  --color-text-subtle: rgba(255, 255, 255, 0.4);
+  
+  /* ============================================
+     GLASSMORPHISM SYSTEM
+     ============================================ */
+  
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-bg-hover: rgba(255, 255, 255, 0.12);
+  --glass-bg-active: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-border-hover: rgba(255, 255, 255, 0.3);
+  --glass-blur: blur(40px) saturate(180%);
+  --glass-blur-strong: blur(60px) saturate(200%);
+  --glass-inner-glow: inset 0 0 20px rgba(255, 255, 255, 0.08);
+  
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  
+  --font-display: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-text: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-serif: 'Charter', 'Georgia', 'Times New Roman', serif;
+  --font-mono: 'SF Mono', 'Fira Code', Consolas, monospace;
+  
+  /* Legacy support */
+  --font-family-primary: var(--font-text);
+  
+  /* Font sizes */
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
-  --font-size-lg: 1.25rem;
-  --font-size-xl: 1.5rem;
-  --font-size-2xl: 2rem;
-  --font-size-3xl: 3rem;
-  --font-size-4xl: 4rem;
-  --font-size-5xl: 5rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-size-6xl: 3.75rem;
   
   /* Font Weights */
   --font-weight-light: 300;
@@ -31,7 +76,20 @@
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
   
-  /* Spacing */
+  /* ============================================
+     SPACING (8px Grid)
+     ============================================ */
+  
+  --space-1: 0.5rem;   /* 8px */
+  --space-2: 1rem;     /* 16px */
+  --space-3: 1.5rem;   /* 24px */
+  --space-4: 2rem;     /* 32px */
+  --space-5: 2.5rem;   /* 40px */
+  --space-6: 3rem;     /* 48px */
+  --space-8: 4rem;     /* 64px */
+  --space-10: 5rem;    /* 80px */
+  
+  /* Legacy spacing */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
@@ -40,46 +98,161 @@
   --spacing-2xl: 3rem;
   --spacing-3xl: 4rem;
   
-  /* Border Radius */
+  /* ============================================
+     BORDERS & RADIUS
+     ============================================ */
+  
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-3xl: 32px;
+  --radius-full: 9999px;
+  
+  /* Legacy radius */
   --border-radius-sm: 4px;
   --border-radius: 8px;
   --border-radius-lg: 12px;
   --border-radius-xl: 16px;
   --border-radius-full: 9999px;
   
-  /* Shadows */
+  /* ============================================
+     SHADOWS
+     ============================================ */
+  
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.2);
+  --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.12);
   --shadow-glow: 0 0 20px rgba(52, 152, 219, 0.3);
+  --shadow-glow-accent: 0 0 30px hsla(var(--color-accent-h), var(--color-accent-s), var(--color-accent-l), 0.4);
   
-  /* Transitions */
-  --transition-fast: 150ms ease-in-out;
-  --transition-base: 300ms ease-in-out;
-  --transition-slow: 500ms ease-in-out;
+  /* ============================================
+     TRANSITIONS
+     ============================================ */
+  
+  --transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --transition-spring: 600ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --transition-mood: 800ms cubic-bezier(0.4, 0, 0.2, 1);
   
-  /* Z-index layers */
+  /* ============================================
+     Z-INDEX LAYERS
+     ============================================ */
+  
   --z-background: 0;
-  --z-background-overlay: 1;
+  --z-environment: 1;
+  --z-background-overlay: 2;
   --z-animations: 5;
   --z-content: 10;
   --z-widgets: 20;
-  --z-ui-controls: 100;
-  --z-modal: 1000;
+  --z-ui-controls: 50;
+  --z-modal: 100;
+  --z-tooltip: 200;
   
-  /* Background overlay */
+  /* ============================================
+     BACKGROUND PROPERTIES
+     ============================================ */
+  
   --background-overlay-opacity: 0.2;
   --background-blur: 0px;
 }
 
-/* Reduced motion preference */
+/* ============================================
+   MOOD-SPECIFIC VARIABLES
+   ============================================ */
+
+/* Focused Mood - Cool Blues & Grays */
+.vibe-focused {
+  --color-primary-h: 210;
+  --color-primary-s: 30%;
+  --color-primary-l: 25%;
+  
+  --color-secondary-h: 210;
+  --color-secondary-s: 15%;
+  --color-secondary-l: 85%;
+  
+  --color-accent-h: 168;
+  --color-accent-s: 45%;
+  --color-accent-l: 45%;
+  
+  --glass-bg: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.12);
+}
+
+/* Feminine Mood - Soft Pinks & Peach */
+.vibe-feminine {
+  --color-primary-h: 340;
+  --color-primary-s: 75%;
+  --color-primary-l: 85%;
+  
+  --color-secondary-h: 350;
+  --color-secondary-s: 100%;
+  --color-secondary-l: 97%;
+  
+  --color-accent-h: 330;
+  --color-accent-s: 100%;
+  --color-accent-l: 70%;
+  
+  --glass-bg: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.25);
+  --color-text: #5a4a4a;
+  --color-text-muted: rgba(90, 74, 74, 0.7);
+}
+
+/* Energetic Mood - Vibrant Orange & Purple */
+.vibe-energetic {
+  --color-primary-h: 15;
+  --color-primary-s: 100%;
+  --color-primary-l: 60%;
+  
+  --color-secondary-h: 45;
+  --color-secondary-s: 95%;
+  --color-secondary-l: 50%;
+  
+  --color-accent-h: 275;
+  --color-accent-s: 100%;
+  --color-accent-l: 48%;
+  
+  --glass-bg: rgba(0, 0, 0, 0.3);
+  --glass-border: rgba(255, 184, 1, 0.3);
+  --color-text: #ffffff;
+}
+
+/* Calm Mood - Serene Blues & Greens */
+.vibe-calm {
+  --color-primary-h: 195;
+  --color-primary-s: 60%;
+  --color-primary-l: 65%;
+  
+  --color-secondary-h: 180;
+  --color-secondary-s: 45%;
+  --color-secondary-l: 85%;
+  
+  --color-accent-h: 165;
+  --color-accent-s: 55%;
+  --color-accent-l: 55%;
+  
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(26, 188, 156, 0.2);
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+
 @media (prefers-reduced-motion: reduce) {
   :root {
     --transition-fast: 0ms;
     --transition-base: 0ms;
     --transition-slow: 0ms;
+    --transition-bounce: 0ms;
+    --transition-spring: 0ms;
     --transition-mood: 0ms;
   }
 }

@@ -1,48 +1,76 @@
 /**
- * Global base styles for VibeShift
+ * VibeShift - Global Styles
+ * Base styles, glassmorphism, typography, and utilities
  */
 
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
 body {
-  background-color: var(--color-background);
+  min-height: 100vh;
+  background-color: #0a0a0a;
   color: var(--color-text);
-  font-family: var(--font-family-primary);
-  transition: 
-    background-color var(--transition-mood),
-    color var(--transition-mood);
+  font-family: var(--font-text);
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+  transition: color var(--transition-mood);
 }
 
-/* Background Layer */
-.background-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: var(--z-background);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transition: 
-    opacity var(--transition-slow),
-    filter var(--transition-mood);
+/* ============================================
+   TYPOGRAPHY SYSTEM
+   ============================================ */
+
+.text-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
-.background-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: var(--z-background-overlay);
-  background: linear-gradient(
-    135deg,
-    rgba(0, 0, 0, var(--background-overlay-opacity)) 0%,
-    rgba(0, 0, 0, calc(var(--background-overlay-opacity) * 0.5)) 100%
-  );
-  transition: background var(--transition-mood);
+.text-heading {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
-/* Animation Canvas */
+.text-body {
+  font-family: var(--font-text);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.text-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  line-height: 1.7;
+}
+
+/* Size scale */
+.text-xs { font-size: var(--font-size-xs); }
+.text-sm { font-size: var(--font-size-sm); }
+.text-base { font-size: var(--font-size-base); }
+.text-lg { font-size: var(--font-size-lg); }
+.text-xl { font-size: var(--font-size-xl); }
+.text-2xl { font-size: var(--font-size-2xl); }
+.text-3xl { font-size: var(--font-size-3xl); }
+.text-4xl { font-size: var(--font-size-4xl); }
+.text-5xl { font-size: var(--font-size-5xl); }
+
+/* Weight scale */
+.font-light { font-weight: 300; }
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+/* ============================================
+   ANIMATION CANVAS
+   ============================================ */
+
 .animation-canvas {
   position: fixed;
   top: 0;
@@ -53,48 +81,88 @@ body {
   pointer-events: none;
 }
 
-/* Main Content Container */
+/* ============================================
+   MAIN CONTENT CONTAINER
+   ============================================ */
+
 .main-container {
   position: relative;
   width: 100%;
   height: 100vh;
   z-index: var(--z-content);
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr auto;
-  grid-template-areas:
-    "top"
-    "center"
-    "bottom";
-  padding: var(--spacing-2xl);
-  gap: var(--spacing-lg);
-}
-
-/* Widget Positioning Areas */
-.widget-area-top {
-  grid-area: top;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.widget-area-center {
-  grid-area: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-xl);
+  padding: var(--space-4);
+  overflow: hidden;
 }
 
-.widget-area-bottom {
-  grid-area: bottom;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
+/* ============================================
+   GLASSMORPHISM SYSTEM
+   ============================================ */
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-glass), var(--glass-inner-glow);
 }
 
-/* Utility Classes */
+.glass:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+}
+
+.glass--strong {
+  background: var(--glass-bg-active);
+  backdrop-filter: var(--glass-blur-strong);
+  -webkit-backdrop-filter: var(--glass-blur-strong);
+  border: 2px solid var(--glass-border-hover);
+}
+
+.glass--dark {
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass--subtle {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================
+   WIDGET BASE STYLES
+   ============================================ */
+
+.widget {
+  transition: 
+    opacity var(--transition-base),
+    transform var(--transition-base),
+    visibility var(--transition-base);
+}
+
+.widget--hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  visibility: hidden;
+}
+
+.widget--visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -108,69 +176,174 @@ body {
 }
 
 .fade-in {
-  animation: fadeIn var(--transition-base) ease-out;
+  animation: fadeIn var(--transition-base) ease-out forwards;
 }
 
 .fade-out {
-  animation: fadeOut var(--transition-base) ease-out;
+  animation: fadeOut var(--transition-base) ease-out forwards;
 }
 
-/* Glass morphism effect */
-.glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+.scale-in {
+  animation: scaleIn var(--transition-bounce) forwards;
 }
 
-.glass--dark {
-  background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* ============================================
+   BUTTON BASE STYLES
+   ============================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-text);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
 }
 
-/* Widget base styles */
-.widget {
-  transition: 
-    opacity var(--transition-base),
-    transform var(--transition-base);
+.btn:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  transform: translateY(-1px);
 }
 
-.widget--hidden {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(10px);
-}
-
-.widget--visible {
-  opacity: 1;
-  pointer-events: auto;
+.btn:active {
   transform: translateY(0);
 }
 
-/* Focus states for accessibility */
+.btn--primary {
+  background: var(--color-accent);
+  border-color: transparent;
+  color: white;
+}
+
+.btn--primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn--icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: var(--radius-full);
+}
+
+/* ============================================
+   FOCUS STATES (ACCESSIBILITY)
+   ============================================ */
+
 *:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
-/* Scrollbar styling */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: var(--border-radius-full);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-full);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: var(--border-radius-full);
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ============================================
+   KEYFRAME ANIMATIONS
+   ============================================ */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slideDown {
+  from { 
+    opacity: 0; 
+    transform: translateY(-20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* ============================================
+   RESPONSIVE UTILITIES
+   ============================================ */
+
+@media (max-width: 768px) {
+  .main-container {
+    padding: var(--space-2);
+  }
+  
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .hide-desktop {
+    display: none !important;
+  }
 }

@@ -1,216 +1,178 @@
 /**
- * Mood Selector UI Styles
- * Floating mood switcher component
+ * VibeShift - Mood Selector Dock
+ * Apple-style floating dock with glassmorphism
  */
 
-.mood-selector {
+/* ============================================
+   MOOD SELECTOR DOCK
+   ============================================ */
+
+.mood-selector-dock {
   position: fixed;
-  bottom: var(--spacing-xl);
-  right: var(--spacing-xl);
+  bottom: var(--space-4);
+  left: 50%;
+  transform: translateX(-50%);
   z-index: var(--z-ui-controls);
-  font-family: var(--font-family-primary);
 }
 
-/* Toggle Button */
-.mood-selector__toggle {
+.mood-selector-dock__track {
   display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-radius: var(--border-radius-full);
-  background: var(--color-primary);
-  color: white;
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
-  box-shadow: var(--shadow-lg);
-  transition: all var(--transition-fast);
-  cursor: pointer;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-2xl);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    var(--glass-inner-glow);
 }
 
-.mood-selector__toggle:hover {
-  transform: scale(1.05);
-  box-shadow: var(--shadow-xl);
-}
-
-.mood-selector__toggle:active {
-  transform: scale(0.98);
-}
-
-.mood-selector__icon {
-  font-size: var(--font-size-xl);
-  line-height: 1;
-}
-
-.mood-selector__label {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .mood-selector__label {
-    display: inline;
-  }
-}
-
-/* Menu */
-.mood-selector__menu {
-  position: absolute;
-  bottom: calc(100% + var(--spacing-md));
-  right: 0;
-  min-width: 280px;
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: var(--border-radius-xl);
-  box-shadow: var(--shadow-xl);
-  overflow: hidden;
-  
-  /* Hidden state */
-  opacity: 0;
-  transform: translateY(10px) scale(0.95);
-  pointer-events: none;
-  transition: all var(--transition-fast);
-}
-
-.mood-selector__menu--open {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
-}
-
-.mood-selector__menu-header {
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.mood-selector__menu-title {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--color-text-muted);
-}
-
-.mood-selector__menu-options {
-  padding: var(--spacing-sm);
-}
-
-/* Mood Option Buttons */
-.mood-option {
-  width: 100%;
+.mood-selector-dock__item {
+  position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--spacing-md);
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-radius: var(--border-radius-lg);
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-lg);
   background: transparent;
-  text-align: left;
-  transition: all var(--transition-fast);
+  border: 2px solid transparent;
+  transition: all var(--transition-bounce);
   cursor: pointer;
+}
+
+.mood-selector-dock__item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.mood-selector-dock__item--active {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+  transform: scale(1.15) translateY(-8px);
+}
+
+.mood-selector-dock__icon {
+  font-size: 1.75rem;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+  transition: transform var(--transition-fast);
+}
+
+.mood-selector-dock__item:hover .mood-selector-dock__icon {
+  transform: scale(1.1);
+}
+
+.mood-selector-dock__label {
+  font-family: var(--font-text);
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color var(--transition-fast);
+}
+
+.mood-selector-dock__item--active .mood-selector-dock__label {
   color: var(--color-text);
 }
 
-.mood-option:hover {
-  background: rgba(0, 0, 0, 0.05);
+.mood-selector-dock__indicator {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: white;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
 }
 
-.mood-option:focus {
-  outline: none;
-  background: rgba(0, 0, 0, 0.05);
+.mood-selector-dock__item--active .mood-selector-dock__indicator {
+  opacity: 1;
 }
 
-.mood-option:focus-visible {
-  box-shadow: inset 0 0 0 2px var(--color-accent);
+/* Magnification effect on hover (like macOS Dock) */
+.mood-selector-dock__track:hover .mood-selector-dock__item:not(:hover):not(.mood-selector-dock__item--active) {
+  transform: scale(0.92);
 }
 
-.mood-option--active {
-  background: var(--color-accent);
-  color: white;
-}
+/* ============================================
+   ANIMATION
+   ============================================ */
 
-.mood-option--active:hover {
-  background: var(--color-accent);
-  filter: brightness(1.1);
-}
-
-.mood-option__icon {
-  font-size: var(--font-size-2xl);
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.mood-option__info {
-  flex: 1;
-  min-width: 0;
-}
-
-.mood-option__name {
-  display: block;
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-semibold);
-  margin-bottom: 2px;
-}
-
-.mood-option__description {
-  display: block;
-  font-size: var(--font-size-sm);
-  opacity: 0.7;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.mood-option--active .mood-option__description {
-  opacity: 0.9;
-}
-
-.mood-option__check {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
-  flex-shrink: 0;
-}
-
-/* Animation */
-.mood-selector {
-  animation: slideInFromBottom var(--transition-base) ease-out;
-  animation-delay: 300ms;
+.mood-selector-dock {
+  animation: dockSlideUp var(--transition-slow) ease-out;
+  animation-delay: 400ms;
   animation-fill-mode: backwards;
 }
 
-/* Responsive adjustments */
+@keyframes dockSlideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .mood-selector-dock__item {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .mood-selector-dock__icon {
+    font-size: 1.5rem;
+  }
+  
+  .mood-selector-dock__label {
+    font-size: 0.5rem;
+  }
+  
+  .mood-selector-dock__track {
+    padding: var(--space-1);
+    gap: 0.25rem;
+  }
+}
+
 @media (max-width: 480px) {
-  .mood-selector {
-    bottom: var(--spacing-md);
-    right: var(--spacing-md);
+  .mood-selector-dock__item {
+    width: 48px;
+    height: 48px;
   }
   
-  .mood-selector__menu {
-    min-width: 260px;
-    right: -var(--spacing-sm);
-  }
-  
-  .mood-selector__toggle {
-    padding: var(--spacing-sm) var(--spacing-md);
+  .mood-selector-dock__label {
+    display: none;
   }
 }
 
-/* Dark mode for energetic mood */
-.vibe-energetic .mood-selector__menu {
-  background: rgba(26, 26, 46, 0.98);
-  color: white;
+/* ============================================
+   MOOD-SPECIFIC STYLING
+   ============================================ */
+
+.vibe-feminine .mood-selector-dock__track {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 182, 193, 0.3);
 }
 
-.vibe-energetic .mood-selector__menu-title {
-  color: rgba(255, 255, 255, 0.6);
+.vibe-energetic .mood-selector-dock__track {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 184, 1, 0.3);
 }
 
-.vibe-energetic .mood-option {
-  color: white;
-}
-
-.vibe-energetic .mood-option:hover {
+.vibe-calm .mood-selector-dock__track {
   background: rgba(255, 255, 255, 0.1);
-}
-
-.vibe-energetic .mood-selector__menu-header {
-  border-bottom-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(26, 188, 156, 0.2);
 }

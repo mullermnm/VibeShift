@@ -1,141 +1,166 @@
 /**
- * Clock Widget Styles
+ * VibeShift - Clock Widget
+ * Glassmorphism design with mood-specific layouts
  */
 
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
 .clock {
+  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  transition: 
-    opacity var(--transition-base),
-    transform var(--transition-base);
+  z-index: var(--z-widgets);
+  transition: all var(--transition-slow);
+}
+
+.clock__container {
+  padding: var(--space-4);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-glass);
 }
 
 .clock__greeting {
+  font-family: var(--font-text);
   font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-light);
-  opacity: 0.8;
-  margin-bottom: var(--spacing-sm);
-  letter-spacing: 1px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+  letter-spacing: 0.02em;
 }
 
 .clock__time {
+  font-family: var(--font-display);
   font-size: var(--font-size-5xl);
-  font-weight: var(--font-weight-bold);
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: -2px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 }
 
 .clock__date {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-normal);
-  opacity: 0.7;
-  margin-top: var(--spacing-sm);
+  font-family: var(--font-text);
+  font-size: var(--font-size-sm);
+  font-weight: 400;
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+  letter-spacing: 0.02em;
 }
 
-/* Layout Variants */
+/* ============================================
+   LAYOUT VARIANTS
+   ============================================ */
 
-/* Center Decorative - Feminine Mode */
-.clock--center-decorative {
-  position: relative;
+/* Focused - Hidden (minimal distraction) */
+.clock--hidden {
+  display: none;
 }
 
-.clock--center-decorative .clock__time {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: var(--font-size-5xl);
-  font-weight: var(--font-weight-normal);
-  font-style: italic;
-  letter-spacing: 2px;
-}
-
-.clock--center-decorative .clock__greeting {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-style: italic;
-  font-size: var(--font-size-xl);
-}
-
-.clock--center-decorative .clock__date {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-style: italic;
-}
-
-/* Top Left Bold - Energetic Mode */
-.clock--top-left-bold {
-  position: fixed;
-  top: var(--spacing-xl);
-  left: var(--spacing-xl);
+/* Feminine - Top Left Elegant */
+.clock--top-left-elegant {
+  top: var(--space-4);
+  left: var(--space-4);
   align-items: flex-start;
   text-align: left;
 }
 
-.clock--top-left-bold .clock__time {
-  font-family: 'Poppins', sans-serif;
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
+.clock--top-left-elegant .clock__container {
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-3) var(--space-4);
+}
+
+.clock--top-left-elegant .clock__time {
+  font-family: 'Playfair Display', var(--font-serif);
+  font-size: var(--font-size-4xl);
+  font-weight: 400;
+  font-style: normal;
   letter-spacing: 0;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+}
+
+.clock--top-left-elegant .clock__greeting {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+/* Energetic - Top Left Bold */
+.clock--top-left-bold {
+  top: var(--space-4);
+  left: var(--space-4);
+  align-items: flex-start;
+  text-align: left;
+}
+
+.clock--top-left-bold .clock__container {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 184, 1, 0.3);
+  padding: var(--space-3) var(--space-4);
+}
+
+.clock--top-left-bold .clock__time {
+  font-family: var(--font-display);
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  letter-spacing: 0;
+  background: linear-gradient(135deg, #FF6B35 0%, #F7B801 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .clock--top-left-bold .clock__date {
-  font-family: 'Poppins', sans-serif;
-  font-size: var(--font-size-sm);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 0.1em;
+  font-size: var(--font-size-xs);
 }
 
-/* Top Center Minimal - Calm Mode */
+/* Calm - Top Center Minimal */
 .clock--top-center-minimal {
-  position: fixed;
-  top: var(--spacing-2xl);
+  top: var(--space-6);
   left: 50%;
   transform: translateX(-50%);
 }
 
+.clock--top-center-minimal .clock__container {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(26, 188, 156, 0.2);
+  padding: var(--space-3) var(--space-5);
+}
+
 .clock--top-center-minimal .clock__time {
-  font-family: 'Lora', Georgia, serif;
+  font-family: var(--font-serif);
   font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-normal);
-  letter-spacing: 4px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
 }
 
 .clock--top-center-minimal .clock__greeting {
-  font-family: 'Lora', Georgia, serif;
-  font-size: var(--font-size-base);
-  letter-spacing: 3px;
-  text-transform: uppercase;
+  font-family: var(--font-serif);
+  font-style: italic;
+  letter-spacing: 0.05em;
 }
 
-.clock--top-center-minimal .clock__date {
-  font-family: 'Lora', Georgia, serif;
-  font-size: var(--font-size-sm);
-  letter-spacing: 2px;
-}
+/* ============================================
+   RESPONSIVE
+   ============================================ */
 
-/* Animation */
-.clock.widget--visible {
-  animation: fadeInUp var(--transition-base) ease-out;
-}
-
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .clock__time {
     font-size: var(--font-size-4xl);
   }
   
-  .clock--center-decorative .clock__time {
-    font-size: var(--font-size-4xl);
-  }
-  
-  .clock--top-left-bold .clock__time {
-    font-size: var(--font-size-2xl);
-  }
-  
+  .clock--top-left-elegant .clock__time,
+  .clock--top-left-bold .clock__time,
   .clock--top-center-minimal .clock__time {
     font-size: var(--font-size-2xl);
   }
@@ -146,8 +171,32 @@
     font-size: var(--font-size-3xl);
   }
   
+  .clock--top-left-elegant,
   .clock--top-left-bold {
-    top: var(--spacing-md);
-    left: var(--spacing-md);
+    top: var(--space-2);
+    left: var(--space-2);
+  }
+  
+  .clock__container {
+    padding: var(--space-2) var(--space-3);
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+.clock.widget--visible {
+  animation: clockFadeIn var(--transition-slow) ease-out;
+}
+
+@keyframes clockFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

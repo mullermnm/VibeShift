@@ -1,5 +1,5 @@
 /**
- * Mood Selector UI - Floating mood switcher
+ * Mood Selector Dock - Apple-style floating mood switcher
  * Allows users to switch between different mood states
  */
 class MoodSelector {
@@ -11,13 +11,6 @@ class MoodSelector {
     this.moodEngine = moodEngine;
     this.eventBus = eventBus;
     this.element = null;
-    this.isOpen = false;
-    this.menuElement = null;
-    this.toggleButton = null;
-    
-    // Bind methods for event listeners
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   /**
@@ -26,217 +19,113 @@ class MoodSelector {
    */
   render() {
     this.element = document.createElement('div');
-    this.element.className = 'mood-selector';
+    this.element.className = 'mood-selector-dock';
     
-    const currentMood = this.moodEngine.getCurrentConfig();
+    const moods = this.moodEngine.getAvailableMoods();
+    const currentMood = this.moodEngine.getCurrentMood();
     
     this.element.innerHTML = `
-      <button 
-        class="mood-selector__toggle" 
-        id="mood-toggle" 
-        aria-label="Change mood"
-        aria-expanded="false"
-        aria-haspopup="true"
-      >
-        <span class="mood-selector__icon">${currentMood.icon}</span>
-        <span class="mood-selector__label">${currentMood.name}</span>
-      </button>
-      
-      <div 
-        class="mood-selector__menu" 
-        id="mood-menu"
-        role="menu"
-        aria-label="Mood selection menu"
-      >
-        <div class="mood-selector__menu-header">
-          <span class="mood-selector__menu-title">Choose Your Vibe</span>
-        </div>
-        <div class="mood-selector__menu-options">
-          ${this.renderMoodOptions()}
-        </div>
+      <div class="mood-selector-dock__track" role="tablist" aria-label="Mood selection">
+        ${moods.map(moodId => {
+          const config = this.moodEngine.getMoodConfig(moodId);
+          const isActive = moodId === currentMood;
+          
+          return `
+            <button 
+              class="mood-selector-dock__item ${isActive ? 'mood-selector-dock__item--active' : ''}"
+              data-mood="${moodId}"
+              role="tab"
+              aria-selected="${isActive}"
+              aria-label="Switch to ${config.name} mode"
+              title="${config.name}"
+            >
+              <span class="mood-selector-dock__icon">${config.icon}</span>
+              <span class="mood-selector-dock__label">${config.name}</span>
+              <div class="mood-selector-dock__indicator"></div>
+            </button>
+          `;
+        }).join('')}
       </div>
     `;
     
-    this.toggleButton = this.element.querySelector('#mood-toggle');
-    this.menuElement = this.element.querySelector('#mood-menu');
-    
-    // Event listeners
-    this.toggleButton.addEventListener('click', () => this.toggle());
-    
-    // Add click handlers for each mood button
-    const moodButtons = this.element.querySelectorAll('.mood-option');
-    moodButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const moodId = button.dataset.mood;
-        this.selectMood(moodId);
-      });
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', this.handleClickOutside);
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', this.handleKeyDown);
+    this.attachEventListeners();
     
     return this.element;
   }
 
   /**
-   * Render mood option buttons
-   * @returns {string} HTML string for mood options
+   * Attach event listeners to dock items
    */
-  renderMoodOptions() {
-    const moods = this.moodEngine.getAvailableMoods();
-    const currentMood = this.moodEngine.getCurrentMood();
+  attachEventListeners() {
+    const items = this.element.querySelectorAll('.mood-selector-dock__item');
     
-    return moods.map(moodId => {
-      const config = this.moodEngine.getMoodConfig(moodId);
-      const isActive = moodId === currentMood;
+    items.forEach(item => {
+      // Click to switch mood
+      item.addEventListener('click', async () => {
+        const moodId = item.dataset.mood;
+        await this.moodEngine.setMood(moodId);
+        this.updateActiveState(moodId);
+      });
       
-      return `
-        <button 
-          class="mood-option ${isActive ? 'mood-option--active' : ''}"
-          data-mood="${moodId}"
-          role="menuitem"
-          aria-label="Switch to ${config.name} mode"
-          tabindex="${isActive ? '0' : '-1'}"
-        >
-          <span class="mood-option__icon">${config.icon}</span>
-          <div class="mood-option__info">
-            <span class="mood-option__name">${config.name}</span>
-            <span class="mood-option__description">${config.description}</span>
-          </div>
-          ${isActive ? '<span class="mood-option__check">✓</span>' : ''}
-        </button>
-      `;
-    }).join('');
-  }
-
-  /**
-   * Toggle menu open/closed state
-   */
-  toggle() {
-    this.isOpen = !this.isOpen;
-    
-    if (this.isOpen) {
-      this.menuElement.classList.add('mood-selector__menu--open');
-      this.toggleButton.setAttribute('aria-expanded', 'true');
+      // Hover effect with scale
+      item.addEventListener('mouseenter', () => {
+        if (!item.classList.contains('mood-selector-dock__item--active')) {
+          item.style.transform = 'scale(1.15) translateY(-8px)';
+        }
+      });
       
-      // Focus first menu item
-      const firstOption = this.menuElement.querySelector('.mood-option');
-      if (firstOption) {
-        firstOption.focus();
-      }
-    } else {
-      this.menuElement.classList.remove('mood-selector__menu--open');
-      this.toggleButton.setAttribute('aria-expanded', 'false');
-    }
-  }
-
-  /**
-   * Close the menu
-   */
-  close() {
-    if (this.isOpen) {
-      this.isOpen = false;
-      this.menuElement.classList.remove('mood-selector__menu--open');
-      this.toggleButton.setAttribute('aria-expanded', 'false');
-    }
-  }
-
-  /**
-   * Handle click outside to close menu
-   * @param {MouseEvent} event
-   */
-  handleClickOutside(event) {
-    if (this.isOpen && this.element && !this.element.contains(event.target)) {
-      this.close();
-    }
-  }
-
-  /**
-   * Handle keyboard navigation
-   * @param {KeyboardEvent} event
-   */
-  handleKeyDown(event) {
-    if (!this.isOpen) return;
-    
-    const options = this.menuElement.querySelectorAll('.mood-option');
-    const currentIndex = Array.from(options).findIndex(opt => opt === document.activeElement);
-    
-    switch (event.key) {
-      case 'Escape':
-        this.close();
-        this.toggleButton.focus();
-        break;
-        
-      case 'ArrowDown':
-        event.preventDefault();
-        if (currentIndex < options.length - 1) {
-          options[currentIndex + 1].focus();
-        } else {
-          options[0].focus();
+      item.addEventListener('mouseleave', () => {
+        if (!item.classList.contains('mood-selector-dock__item--active')) {
+          item.style.transform = '';
         }
-        break;
-        
-      case 'ArrowUp':
-        event.preventDefault();
-        if (currentIndex > 0) {
-          options[currentIndex - 1].focus();
-        } else {
-          options[options.length - 1].focus();
-        }
-        break;
-        
-      case 'Enter':
-      case ' ':
-        if (document.activeElement.classList.contains('mood-option')) {
-          event.preventDefault();
-          const moodId = document.activeElement.dataset.mood;
-          this.selectMood(moodId);
-        }
-        break;
-    }
-  }
+      });
+    });
 
-  /**
-   * Select a mood and update UI
-   * @param {string} moodId - The mood ID to switch to
-   */
-  async selectMood(moodId) {
-    await this.moodEngine.setMood(moodId);
-    
-    // Update toggle button
-    const config = this.moodEngine.getCurrentConfig();
-    this.element.querySelector('.mood-selector__icon').textContent = config.icon;
-    this.element.querySelector('.mood-selector__label').textContent = config.name;
-    
-    // Update active state on options
-    const buttons = this.element.querySelectorAll('.mood-option');
-    buttons.forEach(btn => {
-      const isActive = btn.dataset.mood === moodId;
-      btn.classList.toggle('mood-option--active', isActive);
+    // Keyboard navigation
+    this.element.addEventListener('keydown', (e) => {
+      const items = Array.from(this.element.querySelectorAll('.mood-selector-dock__item'));
+      const currentIndex = items.indexOf(document.activeElement);
       
-      // Update checkmark
-      const existingCheck = btn.querySelector('.mood-option__check');
-      if (isActive && !existingCheck) {
-        btn.insertAdjacentHTML('beforeend', '<span class="mood-option__check">✓</span>');
-      } else if (!isActive && existingCheck) {
-        existingCheck.remove();
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        const nextIndex = (currentIndex + 1) % items.length;
+        items[nextIndex].focus();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prevIndex = (currentIndex - 1 + items.length) % items.length;
+        items[prevIndex].focus();
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        document.activeElement.click();
       }
     });
+  }
+
+  /**
+   * Update active state on all items
+   * @param {string} activeMoodId - The active mood ID
+   */
+  updateActiveState(activeMoodId) {
+    const items = this.element.querySelectorAll('.mood-selector-dock__item');
     
-    // Close menu after selection
-    this.close();
+    items.forEach(item => {
+      const isActive = item.dataset.mood === activeMoodId;
+      item.classList.toggle('mood-selector-dock__item--active', isActive);
+      item.setAttribute('aria-selected', isActive);
+      
+      // Update transform
+      if (isActive) {
+        item.style.transform = 'scale(1.15) translateY(-8px)';
+      } else {
+        item.style.transform = '';
+      }
+    });
   }
 
   /**
    * Cleanup when component is destroyed
    */
   destroy() {
-    document.removeEventListener('click', this.handleClickOutside);
-    document.removeEventListener('keydown', this.handleKeyDown);
-    
     if (this.element) {
       this.element.remove();
       this.element = null;

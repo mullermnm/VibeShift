@@ -31,9 +31,11 @@ class Clock {
     this.element.setAttribute('aria-live', 'polite');
     
     this.element.innerHTML = `
-      <div class="clock__greeting"></div>
-      <div class="clock__time"></div>
-      <div class="clock__date"></div>
+      <div class="clock__container">
+        <div class="clock__greeting"></div>
+        <div class="clock__time"></div>
+        <div class="clock__date"></div>
+      </div>
     `;
     
     this.greetingElement = this.element.querySelector('.clock__greeting');
@@ -43,7 +45,7 @@ class Clock {
     // Initial update
     this.updateTime();
     
-    // Update every second
+    // Update every minute (no need for seconds in most moods)
     this.intervalId = setInterval(() => this.updateTime(), 1000);
     
     // Apply initial mood

@@ -1,6 +1,7 @@
 /**
  * VibeShift - Main Orchestrator
  * Entry point that initializes the entire system
+ * Updated for glassmorphism UI with environment layers
  */
 
 import EventBus from './core/EventBus.js';
@@ -13,6 +14,7 @@ import Clock from './widgets/Clock/Clock.js';
 import QuoteCard from './widgets/QuoteCard/QuoteCard.js';
 import BreathingGuide from './widgets/BreathingGuide/BreathingGuide.js';
 import MoodSelector from './ui/MoodSelector.js';
+import { getRandomBackground } from './backgrounds/background-library.js';
 
 /**
  * Main Application Class
@@ -171,12 +173,19 @@ class VibeShiftApp {
    */
   applyMoodStyling(mood) {
     const body = document.getElementById('app-body');
+    const environment = document.getElementById('environment');
     
-    // Remove all mood classes
+    // Remove all mood classes from body
     body.className = body.className.replace(/vibe-\w+/g, '').trim();
     
     // Add new mood class
     body.classList.add(`vibe-${mood}`);
+    
+    // Also update environment fallback class if needed
+    if (environment) {
+      environment.className = environment.className.replace(/environment--fallback-\w+/g, '').trim();
+      environment.classList.add('environment');
+    }
   }
 
   /**
