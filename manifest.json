@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "VibeShift",
+  "version": "1.0.0",
+  "description": "A mood-responsive new tab dashboard that adapts to your energy",
+  
+  "chrome_url_overrides": {
+    "newtab": "src/newtab.html"
+  },
+  
+  "permissions": [
+    "storage"
+  ],
+  
+  "host_permissions": [
+    "https://api.unsplash.com/*"
+  ],
+  
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
+  
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; style-src 'self' 'unsafe-inline';"
+  }
+}
