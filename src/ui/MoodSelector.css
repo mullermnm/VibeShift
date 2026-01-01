@@ -1,0 +1,216 @@
+/**
+ * Mood Selector UI Styles
+ * Floating mood switcher component
+ */
+
+.mood-selector {
+  position: fixed;
+  bottom: var(--spacing-xl);
+  right: var(--spacing-xl);
+  z-index: var(--z-ui-controls);
+  font-family: var(--font-family-primary);
+}
+
+/* Toggle Button */
+.mood-selector__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius-full);
+  background: var(--color-primary);
+  color: white;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  box-shadow: var(--shadow-lg);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.mood-selector__toggle:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-xl);
+}
+
+.mood-selector__toggle:active {
+  transform: scale(0.98);
+}
+
+.mood-selector__icon {
+  font-size: var(--font-size-xl);
+  line-height: 1;
+}
+
+.mood-selector__label {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .mood-selector__label {
+    display: inline;
+  }
+}
+
+/* Menu */
+.mood-selector__menu {
+  position: absolute;
+  bottom: calc(100% + var(--spacing-md));
+  right: 0;
+  min-width: 280px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+  
+  /* Hidden state */
+  opacity: 0;
+  transform: translateY(10px) scale(0.95);
+  pointer-events: none;
+  transition: all var(--transition-fast);
+}
+
+.mood-selector__menu--open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.mood-selector__menu-header {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.mood-selector__menu-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+}
+
+.mood-selector__menu-options {
+  padding: var(--spacing-sm);
+}
+
+/* Mood Option Buttons */
+.mood-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius-lg);
+  background: transparent;
+  text-align: left;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  color: var(--color-text);
+}
+
+.mood-option:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.mood-option:focus {
+  outline: none;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.mood-option:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-accent);
+}
+
+.mood-option--active {
+  background: var(--color-accent);
+  color: white;
+}
+
+.mood-option--active:hover {
+  background: var(--color-accent);
+  filter: brightness(1.1);
+}
+
+.mood-option__icon {
+  font-size: var(--font-size-2xl);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.mood-option__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.mood-option__name {
+  display: block;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: 2px;
+}
+
+.mood-option__description {
+  display: block;
+  font-size: var(--font-size-sm);
+  opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mood-option--active .mood-option__description {
+  opacity: 0.9;
+}
+
+.mood-option__check {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  flex-shrink: 0;
+}
+
+/* Animation */
+.mood-selector {
+  animation: slideInFromBottom var(--transition-base) ease-out;
+  animation-delay: 300ms;
+  animation-fill-mode: backwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .mood-selector {
+    bottom: var(--spacing-md);
+    right: var(--spacing-md);
+  }
+  
+  .mood-selector__menu {
+    min-width: 260px;
+    right: -var(--spacing-sm);
+  }
+  
+  .mood-selector__toggle {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+}
+
+/* Dark mode for energetic mood */
+.vibe-energetic .mood-selector__menu {
+  background: rgba(26, 26, 46, 0.98);
+  color: white;
+}
+
+.vibe-energetic .mood-selector__menu-title {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.vibe-energetic .mood-option {
+  color: white;
+}
+
+.vibe-energetic .mood-option:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.vibe-energetic .mood-selector__menu-header {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}

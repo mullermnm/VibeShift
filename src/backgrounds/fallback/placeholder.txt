@@ -1,0 +1,18 @@
+This directory contains fallback background images for each mood.
+
+Required files:
+- focused.jpg - Minimal workspace, library, or clean desk image
+- feminine.jpg - Pink flowers, cherry blossoms, soft aesthetic
+- energetic.jpg - Vibrant cityscape, neon lights, dynamic scene
+- calm.jpg - Ocean, forest, peaceful nature landscape
+
+Recommended specs:
+- Resolution: 1920x1080 or higher
+- Format: JPEG for smaller file size
+- File size: < 500KB each for fast loading
+
+You can download free images from:
+- Unsplash (https://unsplash.com)
+- Pexels (https://pexels.com)
+
+If images are not present, the app will use gradient backgrounds as fallback.
