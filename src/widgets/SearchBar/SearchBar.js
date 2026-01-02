@@ -36,7 +36,7 @@ class SearchBar {
             type="text" 
             name="q" 
             class="search-bar__input" 
-            placeholder="Search anything..."
+            placeholder="Search here"
             autocomplete="off"
             spellcheck="false"
             aria-label="Search"
