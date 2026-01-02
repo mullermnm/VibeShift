@@ -13,6 +13,11 @@ import SearchBar from './widgets/SearchBar/SearchBar.js';
 import Clock from './widgets/Clock/Clock.js';
 import QuoteCard from './widgets/QuoteCard/QuoteCard.js';
 import BreathingGuide from './widgets/BreathingGuide/BreathingGuide.js';
+import ImageGallery from './widgets/ImageGallery/ImageGallery.js';
+import Dashboard from './widgets/Dashboard/Dashboard.js';
+import SoundPlayer from './widgets/SoundPlayer/SoundPlayer.js';
+import NavBar from './ui/NavBar.js';
+import SettingsPanel from './ui/SettingsPanel.js';
 import MoodSelector from './ui/MoodSelector.js';
 import { getRandomBackground } from './backgrounds/background-library.js';
 
@@ -26,14 +31,19 @@ class VibeShiftApp {
     this.eventBus = new EventBus();
     this.storageManager = new StorageManager();
     this.moodEngine = new MoodEngine(this.eventBus, this.storageManager);
-    
+
     // Managers
     this.floatingEngine = null;
     this.backgroundManager = null;
-    
+
+    // UI Components
+    this.navBar = null;
+    this.settingsPanel = null;
+    this.moodSelector = null;
+
     // Widget instances
     this.widgets = [];
-    
+
     // State
     this.initialized = false;
   }
@@ -44,57 +54,57 @@ class VibeShiftApp {
   async init() {
     performance.mark('vibeshift-start');
     console.log('🚀 VibeShift initializing...');
-    
+
     try {
       // Initialize core systems
       await this.moodEngine.init();
-      
+
       // Initialize animation engine
       this.floatingEngine = new FloatingEngine('animation-canvas');
-      
+
       // Initialize background manager
       this.backgroundManager = new BackgroundManager(this.storageManager);
-      
+
+      // Initialize UI Components
+      this.initializeUI();
+
       // Apply initial mood styling
       this.applyMoodStyling(this.moodEngine.getCurrentMood());
-      
+
       // Update CSS variables from mood config
       this.updateCSSVariables(this.moodEngine.getCurrentConfig());
-      
+
       // Initialize widgets
       this.initializeWidgets();
-      
-      // Initialize UI controls
-      this.initializeMoodSelector();
-      
+
       // Load background for initial mood
       await this.backgroundManager.loadBackground(this.moodEngine.getCurrentConfig());
-      
+
       // Start animations if enabled
       const config = this.moodEngine.getCurrentConfig();
       if (config.animations.enabled) {
         this.floatingEngine.start(config.animations.type, config.animations);
       }
-      
+
       // Listen for mood changes
       this.eventBus.on('mood-changed', (data) => this.onMoodChange(data));
-      
+
       // Setup global error handling
       this.setupErrorHandling();
-      
+
       this.initialized = true;
-      
+
       // Performance logging
       performance.mark('vibeshift-ready');
       performance.measure('vibeshift-init', 'vibeshift-start', 'vibeshift-ready');
       const initTime = performance.getEntriesByName('vibeshift-init')[0].duration;
       console.log(`✅ VibeShift initialized in ${initTime.toFixed(2)}ms`);
-      
+
       // Warn if over performance budget
       if (initTime > 500) {
         console.warn(`⚠️ Performance budget exceeded! Target: <500ms, Actual: ${initTime.toFixed(2)}ms`);
       }
-      
+
     } catch (error) {
       console.error('❌ VibeShift initialization failed:', error);
       this.fallbackMode();
@@ -102,19 +112,50 @@ class VibeShiftApp {
   }
 
   /**
+   * Initialize UI components (NavBar, Settings, MoodSelector)
+   */
+  initializeUI() {
+    // 1. Settings Panel
+    this.settingsPanel = new SettingsPanel(this.moodEngine, this.backgroundManager);
+    this.settingsPanel.init();
+
+    // 2. Navigation Bar
+    this.navBar = new NavBar(this.moodEngine, this.eventBus, this.settingsPanel);
+    this.navBar.init();
+
+    // Mount NavBar to body (so it overlays everything)
+    const moodSelectorContainer = this.navBar.mount(document.body);
+
+    // 3. Mood Selector (Nested in NavBar)
+    this.moodSelector = new MoodSelector(this.moodEngine, this.eventBus);
+    const selectorEl = this.moodSelector.render();
+
+    // Apply static & horizontal styles for navbar integration
+    selectorEl.classList.add('mood-orbit--static', 'mood-orbit--horizontal');
+
+    moodSelectorContainer.appendChild(selectorEl);
+
+    // Initial update for NavBar mood state
+    this.navBar.updateForMood(this.moodEngine.getCurrentMood());
+  }
+
+  /**
    * Initialize all widgets
    */
   initializeWidgets() {
     const container = document.getElementById('main-container');
-    
+
     // Create widgets
     const widgetClasses = [
       SearchBar,
       Clock,
       QuoteCard,
-      BreathingGuide
+      BreathingGuide,
+      ImageGallery,
+      Dashboard,
+      SoundPlayer
     ];
-    
+
     widgetClasses.forEach(WidgetClass => {
       try {
         const widget = new WidgetClass(this.moodEngine, this.eventBus);
@@ -128,37 +169,28 @@ class VibeShiftApp {
   }
 
   /**
-   * Initialize mood selector UI
-   */
-  initializeMoodSelector() {
-    const container = document.getElementById('mood-selector-container');
-    const moodSelector = new MoodSelector(this.moodEngine, this.eventBus);
-    container.appendChild(moodSelector.render());
-  }
-
-  /**
    * Handle mood change events
    * @param {Object} data - Mood change event data
    */
   async onMoodChange(data) {
     const { mood, config, isInitial } = data;
-    
+
     if (isInitial) {
       console.log(`Mood loaded: ${mood}`);
       return;
     }
-    
+
     console.log(`Mood changed: ${mood}`);
-    
+
     // Update body class for mood-specific CSS
     this.applyMoodStyling(mood);
-    
+
     // Update CSS variables
     this.updateCSSVariables(config);
-    
+
     // Load new background
     await this.backgroundManager.loadBackground(config);
-    
+
     // Handle animations
     if (config.animations.enabled) {
       this.floatingEngine.start(config.animations.type, config.animations);
@@ -174,13 +206,13 @@ class VibeShiftApp {
   applyMoodStyling(mood) {
     const body = document.getElementById('app-body');
     const environment = document.getElementById('environment');
-    
+
     // Remove all mood classes from body
     body.className = body.className.replace(/vibe-\w+/g, '').trim();
-    
+
     // Add new mood class
     body.classList.add(`vibe-${mood}`);
-    
+
     // Also update environment fallback class if needed
     if (environment) {
       environment.className = environment.className.replace(/environment--fallback-\w+/g, '').trim();
@@ -195,14 +227,14 @@ class VibeShiftApp {
   updateCSSVariables(config) {
     const root = document.documentElement;
     const theme = config.theme;
-    
+
     root.style.setProperty('--color-primary', theme.primaryColor);
     root.style.setProperty('--color-secondary', theme.secondaryColor);
     root.style.setProperty('--color-accent', theme.accentColor);
     root.style.setProperty('--color-background', theme.backgroundColor);
     root.style.setProperty('--color-text', theme.textColor);
     root.style.setProperty('--font-family-primary', theme.fontFamily);
-    
+
     // Update background overlay opacity
     root.style.setProperty('--background-overlay-opacity', config.background.overlayOpacity);
     root.style.setProperty('--background-blur', `${config.background.blur}px`);
@@ -216,7 +248,7 @@ class VibeShiftApp {
       console.error('Global error:', event.error);
       // Don't crash the whole app for individual widget errors
     });
-    
+
     window.addEventListener('unhandledrejection', (event) => {
       console.error('Unhandled promise rejection:', event.reason);
     });
@@ -274,12 +306,12 @@ class VibeShiftApp {
       }
     });
     this.widgets = [];
-    
+
     // Stop animations
     if (this.floatingEngine) {
       this.floatingEngine.stop();
     }
-    
+
     // Clear event bus
     this.eventBus.clear();
   }
@@ -290,14 +322,14 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     const app = new VibeShiftApp();
     app.init();
-    
+
     // Expose app instance for debugging
     window.__vibeshift = app;
   });
 } else {
   const app = new VibeShiftApp();
   app.init();
-  
+
   // Expose app instance for debugging
   window.__vibeshift = app;
 }

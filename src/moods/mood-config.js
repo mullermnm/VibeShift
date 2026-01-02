@@ -9,17 +9,17 @@ const MOOD_CONFIGS = {
     name: 'Focused',
     icon: '🎯',
     description: 'Minimalist deep work mode',
-    
+
     theme: {
-      primaryColor: '#2C3E50',
-      secondaryColor: '#ECF0F1',
-      accentColor: '#3498DB',
+      primaryColor: '#2D3748', // Slate 800
+      secondaryColor: '#E2E8F0', // Slate 200
+      accentColor: '#48BB78', // Green 500
       backgroundColor: '#FFFFFF',
-      textColor: '#2C3E50',
+      textColor: '#1A202C', // Gray 900
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-      backgroundFilter: 'brightness(0.9) contrast(1.1)'
+      backgroundFilter: 'brightness(0.95) contrast(1.05)'
     },
-    
+
     widgets: {
       SearchBar: { visible: true, layout: 'centered-large' },
       Clock: { visible: false },
@@ -28,21 +28,24 @@ const MOOD_CONFIGS = {
       BreathingGuide: { visible: false },
       NewsWidget: { visible: false },
       WeatherWidget: { visible: false },
-      TaskList: { visible: false }
+      TaskList: { visible: false },
+      ImageGallery: { visible: false },
+      Dashboard: { visible: false },
+      SoundPlayer: { visible: false }
     },
-    
+
     animations: {
       enabled: false,
       type: null
     },
-    
+
     background: {
-      unsplashQuery: 'minimal workspace library',
+      unsplashQuery: 'minimalist workspace architecture white',
       fallbackImage: 'focused.jpg',
-      overlayOpacity: 0.2,
+      overlayOpacity: 0.1,
       blur: 0
     },
-    
+
     quotes: {
       category: 'focus',
       pool: [
@@ -63,17 +66,17 @@ const MOOD_CONFIGS = {
     name: 'Feminine',
     icon: '✨',
     description: 'Aesthetic-driven nurturing mode',
-    
+
     theme: {
-      primaryColor: '#FFB6C1',
-      secondaryColor: '#FFF0F5',
-      accentColor: '#FF69B4',
-      backgroundColor: '#FFF5F8',
-      textColor: '#8B5A6B',
+      primaryColor: '#D6BCFA', // Purple 200
+      secondaryColor: '#FFF5F7', // Pink 50
+      accentColor: '#F687B3', // Pink 400
+      backgroundColor: '#FAFAFA',
+      textColor: '#702459', // Pink 900
       fontFamily: "'Playfair Display', Georgia, serif",
-      backgroundFilter: 'brightness(1.1) saturate(1.3) contrast(0.95)'
+      backgroundFilter: 'brightness(1.05) saturate(1.1)'
     },
-    
+
     widgets: {
       SearchBar: { visible: true, layout: 'top-elegant' },
       Clock: { visible: true, layout: 'top-left-elegant' },
@@ -82,29 +85,32 @@ const MOOD_CONFIGS = {
       BreathingGuide: { visible: false },
       NewsWidget: { visible: false },
       WeatherWidget: { visible: true, layout: 'top-right-minimal' },
-      TaskList: { visible: false }
+      TaskList: { visible: false },
+      ImageGallery: { visible: true, layout: 'centered' },
+      Dashboard: { visible: false },
+      SoundPlayer: { visible: false }
     },
-    
+
     animations: {
       enabled: true,
       type: 'petal',
-      particleCount: 30,
-      speed: 0.4,
+      particleCount: 25,
+      speed: 0.5,
       config: {
-        colors: ['#FFB6C1', '#FFF0F5', '#FF69B4', '#FFC0CB'],
-        size: { min: 8, max: 18 },
-        rotationSpeed: 1.5,
-        opacity: { min: 0.6, max: 0.9 }
+        colors: ['#F687B3', '#FBB6CE', '#D6BCFA', '#E9D8FD'],
+        size: { min: 6, max: 14 },
+        rotationSpeed: 1,
+        opacity: { min: 0.4, max: 0.8 }
       }
     },
-    
+
     background: {
-      unsplashQuery: 'feminine aesthetic pink flowers cherry blossom',
+      unsplashQuery: 'soft aesthetic flowers pastel sky',
       fallbackImage: 'feminine.jpg',
-      overlayOpacity: 0.4,
+      overlayOpacity: 0.2,
       blur: 2
     },
-    
+
     quotes: {
       category: 'self-love',
       pool: [
@@ -125,48 +131,51 @@ const MOOD_CONFIGS = {
     name: 'Energetic',
     icon: '🔥',
     description: 'Maximalist productivity hub',
-    
+
     theme: {
-      primaryColor: '#FF6B35',
-      secondaryColor: '#F7B801',
-      accentColor: '#6A00F4',
-      backgroundColor: '#1A1A2E',
+      primaryColor: '#F6AD55', // Orange 400
+      secondaryColor: '#2D3748', // Gray 800
+      accentColor: '#63B3ED', // Blue 400
+      backgroundColor: '#171923', // Gray 900
       textColor: '#FFFFFF',
       fontFamily: "'Poppins', -apple-system, BlinkMacSystemFont, sans-serif",
-      backgroundFilter: 'brightness(1.2) saturate(1.5) contrast(1.1)'
+      backgroundFilter: 'brightness(1.1) contrast(1.1)'
     },
-    
+
     widgets: {
       SearchBar: { visible: true, layout: 'top-compact' },
       Clock: { visible: true, layout: 'top-left-bold' },
       QuoteCard: { visible: true, layout: 'top-bold' },
       FocusTimer: { visible: false },
       BreathingGuide: { visible: false },
-      NewsWidget: { visible: true, layout: 'right-sidebar' },
+      NewsWidget: { visible: false },
       WeatherWidget: { visible: true, layout: 'top-right-detailed' },
-      TaskList: { visible: true, layout: 'left-sidebar' }
+      TaskList: { visible: false },
+      ImageGallery: { visible: false },
+      Dashboard: { visible: true },
+      SoundPlayer: { visible: false }
     },
-    
+
     animations: {
       enabled: true,
       type: 'spark',
-      particleCount: 50,
-      speed: 1.5,
+      particleCount: 40,
+      speed: 1.2,
       config: {
-        colors: ['#FF6B35', '#F7B801', '#6A00F4', '#00D9FF'],
-        size: { min: 4, max: 12 },
+        colors: ['#F6AD55', '#FBD38D', '#63B3ED', '#90CDF4'],
+        size: { min: 3, max: 8 },
         shapes: ['triangle', 'square', 'circle'],
         movementPattern: 'diagonal-fast'
       }
     },
-    
+
     background: {
-      unsplashQuery: 'vibrant energy neon cityscape',
+      unsplashQuery: 'neon city cyber dark vibrant',
       fallbackImage: 'energetic.jpg',
-      overlayOpacity: 0.3,
+      overlayOpacity: 0.4,
       blur: 0
     },
-    
+
     quotes: {
       category: 'motivation',
       pool: [
@@ -185,19 +194,19 @@ const MOOD_CONFIGS = {
   calm: {
     id: 'calm',
     name: 'Calm',
-    icon: '🌊',
+    icon: '🌿',
     description: 'Mental reset and meditation mode',
-    
+
     theme: {
-      primaryColor: '#5DADE2',
-      secondaryColor: '#AED6F1',
-      accentColor: '#1ABC9C',
-      backgroundColor: '#E8F8F5',
-      textColor: '#21618C',
+      primaryColor: '#81E6D9', // Teal 300
+      secondaryColor: '#E6FFFA', // Teal 50
+      accentColor: '#4FD1C5', // Teal 400
+      backgroundColor: '#F0FFF4', // Green 50
+      textColor: '#2C7A7B', // Teal 800
       fontFamily: "'Lora', Georgia, serif",
-      backgroundFilter: 'brightness(1.0) saturate(0.8) contrast(0.9)'
+      backgroundFilter: 'brightness(1.0) saturate(0.9) blur(0px)'
     },
-    
+
     widgets: {
       SearchBar: { visible: false },
       Clock: { visible: true, layout: 'top-center-minimal' },
@@ -206,29 +215,32 @@ const MOOD_CONFIGS = {
       BreathingGuide: { visible: true, layout: 'center-large' },
       NewsWidget: { visible: false },
       WeatherWidget: { visible: false },
-      TaskList: { visible: false }
+      TaskList: { visible: false },
+      ImageGallery: { visible: false },
+      Dashboard: { visible: false },
+      SoundPlayer: { visible: true }
     },
-    
+
     animations: {
       enabled: true,
       type: 'bubble',
-      particleCount: 20,
-      speed: 0.3,
+      particleCount: 15,
+      speed: 0.2,
       config: {
-        colors: ['#5DADE2', '#AED6F1', '#1ABC9C', '#85C1E9'],
-        size: { min: 15, max: 40 },
-        opacity: { min: 0.3, max: 0.6 },
+        colors: ['#81E6D9', '#B2F5EA', '#E6FFFA'],
+        size: { min: 20, max: 60 },
+        opacity: { min: 0.2, max: 0.5 },
         movementPattern: 'slow-rise-wobble'
       }
     },
-    
+
     background: {
-      unsplashQuery: 'calm ocean forest nature peaceful',
+      unsplashQuery: 'nature forest zen lake mist',
       fallbackImage: 'calm.jpg',
-      overlayOpacity: 0.5,
-      blur: 3
+      overlayOpacity: 0.3,
+      blur: 2
     },
-    
+
     quotes: {
       category: 'peace',
       pool: [
@@ -281,11 +293,11 @@ export function registerCustomMood(customMoodConfig) {
     console.error('Custom mood must have an id property');
     return false;
   }
-  
+
   if (MOOD_CONFIGS[customMoodConfig.id]) {
     console.warn(`Mood "${customMoodConfig.id}" already exists, overwriting...`);
   }
-  
+
   MOOD_CONFIGS[customMoodConfig.id] = customMoodConfig;
   return true;
 }

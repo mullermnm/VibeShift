@@ -1,0 +1,38 @@
+.dashboard-container {
+    display: contents;
+    /* Allows children to participate in the parent grid */
+}
+
+.dashboard-card {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    color: white;
+}
+
+.card-news {
+    grid-area: news;
+}
+
+.card-tasks {
+    grid-area: tasks;
+}
+
+.card-stocks {
+    grid-area: stocks;
+}
+
+.card-spotify {
+    grid-area: spotify;
+}
+
+.card-fitness {
+    grid-area: fitness;
+}
+
+.stock-item {
+    color: #4ade80;
+    font-weight: bold;
+    margin-top: var(--space-2);
+}

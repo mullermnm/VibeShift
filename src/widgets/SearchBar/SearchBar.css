@@ -1,10 +1,11 @@
 /**
- * VibeShift - Search Bar Widget
- * Glassmorphism design with mood-specific variants
+ * VibeShift - Search Bar Widget (ENHANCED)
+ * Premium glassmorphism with sophisticated mood adaptations
+ * Version: 2.0
  */
 
 /* ============================================
-   BASE STYLES
+   BASE STYLES - PREMIUM GLASSMORPHISM
    ============================================ */
 
 .search-bar {
@@ -12,7 +13,7 @@
   width: 100%;
   max-width: 600px;
   z-index: var(--z-widgets);
-  transition: all var(--transition-slow);
+  transition: all var(--transition-slow) cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .search-bar__form {
@@ -24,202 +25,616 @@
   display: flex;
   align-items: center;
   width: 100%;
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
+
+  /* Premium Glass Effect */
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+
+  /* Multi-layer Border */
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    /* Outer glow */
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    /* Inner highlight */
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    /* Inner shadow for depth */
+    inset 0 -1px 1px rgba(0, 0, 0, 0.05);
+
   border-radius: var(--radius-xl);
   padding: var(--space-3) var(--space-4);
-  transition: all var(--transition-base);
-  box-shadow: var(--shadow-glass);
+
+  transition: all var(--transition-base) cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Subtle gradient overlay */
+  position: relative;
+  overflow: hidden;
 }
 
+/* Gradient shine overlay */
+.search-bar__input-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent);
+  transition: left 0.5s ease;
+  pointer-events: none;
+}
+
+/* Hover State - Elevated */
 .search-bar__input-wrapper:hover {
-  background: var(--glass-bg-hover);
-  border-color: var(--glass-border-hover);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.15),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.05);
 }
 
-.search-bar--focused .search-bar__input-wrapper {
-  background: var(--glass-bg-active);
-  border-color: var(--glass-border-hover);
-  box-shadow: 
-    0 0 0 4px rgba(255, 255, 255, 0.08),
-    0 20px 40px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px);
+/* Shine effect on hover */
+.search-bar__input-wrapper:hover::before {
+  left: 100%;
 }
+
+/* Focus State - Premium Highlight */
+.search-bar--focused .search-bar__input-wrapper {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-3px) scale(1.01);
+  box-shadow:
+    /* Large glow */
+    0 0 0 4px rgba(255, 255, 255, 0.1),
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    /* Inner highlights */
+    inset 0 2px 4px rgba(255, 255, 255, 0.25),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================================
+   ICON STYLING
+   ============================================ */
 
 .search-bar__icon {
   flex-shrink: 0;
   width: 20px;
   height: 20px;
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.5);
   margin-right: var(--space-2);
-  transition: color var(--transition-fast);
+  transition: all var(--transition-fast) ease-out;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
 }
 
 .search-bar--focused .search-bar__icon {
-  color: var(--color-text);
+  color: rgba(255, 255, 255, 0.95);
+  transform: scale(1.05);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
+
+/* Icon pulse animation on focus */
+@keyframes iconPulse {
+
+  0%,
+  100% {
+    transform: scale(1.05);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+.search-bar--focused .search-bar__icon {
+  animation: iconPulse 2s ease-in-out infinite;
+}
+
+/* ============================================
+   INPUT FIELD
+   ============================================ */
 
 .search-bar__input {
   flex: 1;
   background: transparent;
   border: none;
   outline: none;
-  color: var(--color-text);
+  color: rgba(255, 255, 255, 0.95);
   font-family: var(--font-text);
   font-size: var(--font-size-base);
   font-weight: 400;
   letter-spacing: -0.01em;
-}
+  line-height: 1.5;
 
-.search-bar__input::placeholder {
-  color: var(--color-text-subtle);
-}
+  /* Text shadow for better readability */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 
-.search-bar__shortcut {
-  flex-shrink: 0;
-  padding: 0.25rem 0.5rem;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-sm);
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--color-text-muted);
-  font-family: var(--font-text);
   transition: all var(--transition-fast);
 }
 
-.search-bar--focused .search-bar__shortcut {
-  opacity: 0;
-  transform: scale(0.9);
+.search-bar__input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  transition: color var(--transition-fast);
+}
+
+.search-bar__input:focus::placeholder {
+  color: rgba(255, 255, 255, 0.3);
 }
 
 /* ============================================
-   LAYOUT VARIANTS
+   KEYBOARD SHORTCUT BADGE
    ============================================ */
 
-/* Focused Mood - Large, Centered */
+.search-bar__shortcut {
+  flex-shrink: 0;
+  padding: 0.3rem 0.6rem;
+
+  /* Glass effect for badge */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: var(--font-text);
+  letter-spacing: 0.05em;
+
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+
+  transition: all var(--transition-fast);
+}
+
+.search-bar__shortcut:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
+/* Hide shortcut badge on focus with smooth fade */
+.search-bar--focused .search-bar__shortcut {
+  opacity: 0;
+  transform: scale(0.85) translateX(8px);
+  pointer-events: none;
+}
+
+/* ============================================
+   LAYOUT VARIANTS - MOOD SPECIFIC
+   ============================================ */
+
+/* 🎯 FOCUSED MOOD - Large, Centered, Zen */
 .search-bar--centered-large {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 700px;
+  grid-area: search;
+  position: relative;
+  /* Reset absolute */
+  top: auto;
+  left: auto;
+  transform: none;
+  width: 100%;
+  max-width: 100%;
+  /* Let grid control width */
+  margin: 0 auto;
 }
 
 .search-bar--centered-large .search-bar__input-wrapper {
-  padding: var(--space-4) var(--space-5);
+  padding: var(--space-5) var(--space-6);
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.12);
 }
 
 .search-bar--centered-large .search-bar__input {
   font-size: var(--font-size-2xl);
   font-weight: 300;
+  letter-spacing: -0.02em;
 }
 
 .search-bar--centered-large .search-bar__icon {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
+  margin-right: var(--space-3);
 }
 
-/* Feminine Mood - Elegant, Top */
+/* Focused mood hover enhancement */
+.vibe-focused .search-bar--centered-large:hover .search-bar__input-wrapper {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 24px 80px rgba(52, 152, 219, 0.15),
+    inset 0 2px 4px rgba(255, 255, 255, 0.15);
+}
+
+/* ✨ FEMININE MOOD - Elegant, Soft, Dreamy */
 .search-bar--top-elegant {
   top: var(--space-8);
   left: 50%;
   transform: translateX(-50%);
-  max-width: 500px;
+  max-width: 520px;
 }
 
 .search-bar--top-elegant .search-bar__input-wrapper {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: var(--glass-blur-strong);
-  -webkit-backdrop-filter: var(--glass-blur-strong);
-  border: 2px solid rgba(255, 255, 255, 0.25);
+  padding: var(--space-4) var(--space-5);
+
+  /* Softer, more romantic glass */
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(60px) saturate(200%);
+  -webkit-backdrop-filter: blur(60px) saturate(200%);
+
+  /* Delicate border */
+  border: 2px solid rgba(255, 182, 193, 0.35);
   border-radius: var(--radius-2xl);
-  box-shadow: 
-    0 8px 32px rgba(255, 105, 180, 0.15),
-    var(--glass-inner-glow);
+
+  /* Dreamy shadow with pink tint */
+  box-shadow:
+    0 12px 48px rgba(255, 105, 180, 0.2),
+    0 0 40px rgba(255, 192, 203, 0.1),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(255, 182, 193, 0.1);
 }
 
-/* Energetic Mood - Compact, Utility */
+.search-bar--top-elegant .search-bar__input {
+  font-size: var(--font-size-lg);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* Feminine glow on focus */
+.vibe-feminine .search-bar--focused .search-bar__input-wrapper {
+  border-color: rgba(255, 105, 180, 0.5);
+  box-shadow:
+    0 0 0 6px rgba(255, 182, 193, 0.15),
+    0 16px 64px rgba(255, 105, 180, 0.3),
+    0 0 60px rgba(255, 192, 203, 0.2),
+    inset 0 2px 6px rgba(255, 255, 255, 0.4);
+}
+
+/* 🔥 ENERGETIC MOOD - Bold, Vibrant, Utility */
 .search-bar--top-compact {
-  top: var(--space-4);
+  top: var(--space-5);
   left: 50%;
   transform: translateX(-50%);
-  max-width: 400px;
+  max-width: 440px;
 }
 
 .search-bar--top-compact .search-bar__input-wrapper {
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-3) var(--space-4);
+
+  /* Dark, contrast-rich glass */
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(30px) saturate(150%);
+  -webkit-backdrop-filter: blur(30px) saturate(150%);
+
+  /* Vibrant borders */
+  border: 2px solid rgba(255, 184, 1, 0.4);
   border-radius: var(--radius-lg);
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 184, 1, 0.3);
+
+  /* Energetic glow */
+  box-shadow:
+    0 8px 32px rgba(255, 107, 53, 0.25),
+    0 0 30px rgba(247, 184, 1, 0.15),
+    inset 0 1px 2px rgba(255, 184, 1, 0.2),
+    inset 0 -1px 2px rgba(255, 107, 53, 0.1);
 }
 
 .search-bar--top-compact .search-bar__input {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  letter-spacing: -0.005em;
 }
 
-/* Calm Mood - Minimal (Hidden by default) */
+/* Energetic pulse effect */
+.vibe-energetic .search-bar--top-compact:hover .search-bar__input-wrapper {
+  background: rgba(0, 0, 0, 0.6);
+  border-color: rgba(255, 184, 1, 0.6);
+  box-shadow:
+    0 12px 40px rgba(255, 107, 53, 0.35),
+    0 0 50px rgba(247, 184, 1, 0.25),
+    inset 0 2px 4px rgba(255, 184, 1, 0.3);
+}
+
+@keyframes energeticPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(247, 184, 1, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(247, 184, 1, 0.5);
+  }
+}
+
+.vibe-energetic .search-bar--focused .search-bar__input-wrapper {
+  animation: energeticPulse 2s ease-in-out infinite;
+}
+
+/* 🌊 CALM MOOD - Minimal, Serene (Hidden by default) */
 .search-bar--minimal {
-  display: none;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.95) translateY(20px);
+  transition: all var(--transition-slow);
+}
+
+/* Optional: Show on hover in calm mode */
+.vibe-calm:hover .search-bar--minimal {
+  opacity: 0.7;
+  pointer-events: all;
+  transform: scale(1) translateY(0);
 }
 
 /* ============================================
-   MOOD-SPECIFIC OVERRIDES
+   MOOD-SPECIFIC COLOR REFINEMENTS
    ============================================ */
 
+/* Focused - Cool, Professional Blues */
 .vibe-focused .search-bar__input-wrapper {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(44, 62, 80, 0.4);
+  border-color: rgba(52, 152, 219, 0.3);
 }
 
+.vibe-focused .search-bar__input {
+  color: rgba(236, 240, 241, 0.95);
+}
+
+.vibe-focused .search-bar__icon {
+  color: rgba(52, 152, 219, 0.7);
+}
+
+/* Feminine - Soft, Romantic Pinks */
 .vibe-feminine .search-bar__input-wrapper {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 182, 193, 0.3);
+  background: rgba(255, 240, 245, 0.12);
+  border-color: rgba(255, 182, 193, 0.35);
 }
 
+.vibe-feminine .search-bar__input {
+  color: rgba(255, 250, 250, 0.95);
+}
+
+.vibe-feminine .search-bar__icon {
+  color: rgba(255, 182, 193, 0.8);
+}
+
+/* Energetic - Bold, High-Contrast */
 .vibe-energetic .search-bar__input-wrapper {
-  background: rgba(0, 0, 0, 0.4);
-  border-color: rgba(255, 184, 1, 0.3);
+  background: rgba(26, 26, 46, 0.7);
+  border-color: rgba(247, 184, 1, 0.4);
 }
 
+.vibe-energetic .search-bar__input {
+  color: rgba(255, 255, 255, 1);
+  font-weight: 500;
+}
+
+.vibe-energetic .search-bar__icon {
+  color: rgba(247, 184, 1, 0.9);
+}
+
+/* Calm - Serene, Muted Teals */
 .vibe-calm .search-bar__input-wrapper {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(26, 188, 156, 0.2);
+  background: rgba(93, 173, 226, 0.08);
+  border-color: rgba(26, 188, 156, 0.25);
+}
+
+.vibe-calm .search-bar__input {
+  color: rgba(232, 248, 245, 0.9);
+}
+
+.vibe-calm .search-bar__icon {
+  color: rgba(26, 188, 156, 0.6);
 }
 
 /* ============================================
-   RESPONSIVE
+   RESPONSIVE REFINEMENTS
    ============================================ */
 
 @media (max-width: 768px) {
   .search-bar {
-    max-width: calc(100% - var(--space-8));
+    max-width: calc(100% - var(--space-6));
   }
-  
+
+  .search-bar--centered-large {
+    max-width: calc(100% - var(--space-6));
+  }
+
+  .search-bar--centered-large .search-bar__input-wrapper {
+    padding: var(--space-4) var(--space-4);
+  }
+
   .search-bar--centered-large .search-bar__input {
     font-size: var(--font-size-xl);
   }
-  
+
+  .search-bar--centered-large .search-bar__icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Hide keyboard shortcut on mobile */
   .search-bar__shortcut {
     display: none;
   }
 }
 
+@media (max-width: 480px) {
+  .search-bar__input-wrapper {
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .search-bar--top-elegant,
+  .search-bar--top-compact {
+    max-width: calc(100% - var(--space-4));
+  }
+}
+
 /* ============================================
-   ANIMATIONS
+   ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .search-bar__input-wrapper {
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .search-bar__input {
+    color: white;
+  }
+
+  .search-bar__icon {
+    color: white;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+  .search-bar,
+  .search-bar__input-wrapper,
+  .search-bar__icon,
+  .search-bar__input,
+  .search-bar__shortcut {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .search-bar__input-wrapper::before {
+    display: none;
+  }
+}
+
+/* Focus visible for keyboard navigation */
+.search-bar__input:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: -2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ============================================
+   LOADING STATE (FUTURE)
+   ============================================ */
+
+.search-bar--loading .search-bar__icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   ENTRANCE ANIMATIONS
    ============================================ */
 
 .search-bar.widget--visible {
-  animation: slideDown var(--transition-slow) ease-out;
+  animation: searchBarEntrance var(--transition-slow) cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@keyframes slideDown {
+@keyframes searchBarEntrance {
   from {
     opacity: 0;
-    transform: translate(-50%, -60%);
+    transform: translate(-50%, -65%) scale(0.95);
+    filter: blur(10px);
   }
+
   to {
     opacity: 1;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(1);
+    filter: blur(0);
   }
+}
+
+/* Mood-specific entrance tweaks */
+.vibe-focused .search-bar.widget--visible {
+  animation: searchBarEntranceFocused 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes searchBarEntranceFocused {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.vibe-feminine .search-bar.widget--visible {
+  animation: searchBarEntranceFeminine 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes searchBarEntranceFeminine {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px) rotate(-2deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) rotate(0deg);
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  .search-bar {
+    display: none;
+  }
+}
+
+/* ============================================
+   DARK MODE OPTIMIZATION (if applicable)
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  .search-bar__input-wrapper {
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATION
+   ============================================ */
+
+/* Use will-change for frequently animated properties */
+.search-bar__input-wrapper {
+  will-change: transform, box-shadow;
+}
+
+.search-bar--focused .search-bar__input-wrapper {
+  will-change: transform, box-shadow, background;
+}
+
+/* Remove will-change after animation completes */
+.search-bar.animation-complete {
+  will-change: auto;
+}
+
+.search-bar.animation-complete .search-bar__input-wrapper {
+  will-change: auto;
 }

@@ -1,36 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VibeShift</title>
-  
+
   <!-- Preconnect for performance -->
+  <!-- Fonts
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+    rel="stylesheet">
+  -->
   <link rel="preconnect" href="https://api.unsplash.com">
-  
-  <!-- Google Fonts - System fonts fallback prioritized -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-  
+
   <!-- Core CSS -->
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/variables.css">
   <link rel="stylesheet" href="styles/environment.css">
   <link rel="stylesheet" href="styles/global.css">
   <link rel="stylesheet" href="styles/animations.css">
-  
+
   <!-- Widget CSS -->
   <link rel="stylesheet" href="widgets/SearchBar/SearchBar.css">
   <link rel="stylesheet" href="widgets/Clock/Clock.css">
   <link rel="stylesheet" href="widgets/QuoteCard/QuoteCard.css">
   <link rel="stylesheet" href="widgets/BreathingGuide/BreathingGuide.css">
-  
+  <link rel="stylesheet" href="widgets/ImageGallery/ImageGallery.css">
+  <link rel="stylesheet" href="widgets/Dashboard/Dashboard.css">
+  <link rel="stylesheet" href="widgets/SoundPlayer/SoundPlayer.css">
+
   <!-- UI Components CSS -->
   <link rel="stylesheet" href="ui/MoodSelector.css">
+  <link rel="stylesheet" href="ui/NavBar.css">
+  <link rel="stylesheet" href="ui/SettingsPanel.css">
 </head>
+
 <body class="vibe-focused" id="app-body">
-  
+
   <!-- Environment Background System -->
   <div class="environment" id="environment">
     <div class="environment__background" id="background-layer"></div>
@@ -38,22 +47,20 @@
     <div class="environment__gradient-overlay"></div>
     <div class="environment__noise"></div>
   </div>
-  
+
   <!-- Animation Canvas (Particles) -->
   <canvas id="animation-canvas" class="animation-canvas"></canvas>
-  
+
   <!-- Main Content Container -->
   <main id="main-container" class="main-container">
     <!-- Widgets will be injected here by JavaScript -->
   </main>
-  
-  <!-- Mood Selector Dock (Floating UI) -->
-  <div id="mood-selector-container"></div>
-  
-  <!-- Background Selector (Floating UI) -->
-  <div id="background-selector-container"></div>
-  
+
+  <!-- UI Overlay Container -->
+  <div id="ui-overlay"></div>
+
   <!-- Scripts (ES6 modules) -->
   <script type="module" src="newtab.js"></script>
 </body>
+
 </html>

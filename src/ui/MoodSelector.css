@@ -1,178 +1,281 @@
-/**
- * VibeShift - Mood Selector Dock
- * Apple-style floating dock with glassmorphism
- */
-
 /* ============================================
-   MOOD SELECTOR DOCK
+   ORBITAL MOOD SELECTOR (Top Right)
    ============================================ */
 
-.mood-selector-dock {
+:root {
+  --orbit-width: 60px;
+  --orbit-gap: 8px;
+  --orbit-bg: rgba(20, 20, 25, 0.65);
+  --orbit-border: rgba(255, 255, 255, 0.1);
+  --orbit-glow: rgba(255, 255, 255, 0.15);
+  --orbit-active-bg: #ffffff;
+  --orbit-active-text: #000000;
+  --ease-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.mood-orbit {
   position: fixed;
-  bottom: var(--space-4);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: var(--z-ui-controls);
+  top: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-.mood-selector-dock__track {
-  display: flex;
-  gap: var(--space-1);
-  padding: var(--space-2);
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-2xl);
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.2),
-    var(--glass-inner-glow);
-}
-
-.mood-selector-dock__item {
+.mood-orbit__track {
   position: relative;
   display: flex;
   flex-direction: column;
+  /* Vertical Stack */
+  gap: var(--orbit-gap);
+  padding: 8px;
+  width: var(--orbit-width);
+
+  background: var(--orbit-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--orbit-border);
+  border-radius: 99px;
+  /* Pill shape */
+
+  box-shadow:
+    0 4px 24px -1px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mood-orbit__track:hover {
+  box-shadow:
+    0 8px 32px -4px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+/* The Sliding Active Background (The Glider) */
+.mood-orbit__glider {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  height: 44px;
+  /* Matches item height */
+  background: var(--orbit-active-bg);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+  transition: transform 0.4s var(--ease-elastic), height 0.3s ease;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
+}
+
+.mood-orbit__item {
+  position: relative;
+  z-index: 1;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
-  border-radius: var(--radius-lg);
+  width: 100%;
+  aspect-ratio: 1;
+  border: none;
   background: transparent;
-  border: 2px solid transparent;
-  transition: all var(--transition-bounce);
   cursor: pointer;
-}
-
-.mood-selector-dock__item:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.mood-selector-dock__item--active {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
-  transform: scale(1.15) translateY(-8px);
-}
-
-.mood-selector-dock__icon {
-  font-size: 1.75rem;
-  line-height: 1;
-  margin-bottom: 0.25rem;
-  transition: transform var(--transition-fast);
-}
-
-.mood-selector-dock__item:hover .mood-selector-dock__icon {
-  transform: scale(1.1);
-}
-
-.mood-selector-dock__label {
-  font-family: var(--font-text);
-  font-size: 0.625rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  transition: color var(--transition-fast);
-}
-
-.mood-selector-dock__item--active .mood-selector-dock__label {
-  color: var(--color-text);
-}
-
-.mood-selector-dock__indicator {
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
   border-radius: 50%;
-  background: white;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.mood-orbit__item:hover {
+  color: #fff;
+}
+
+.mood-orbit__item:focus-visible {
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.mood-orbit__item--active {
+  color: var(--orbit-active-text) !important;
+}
+
+.mood-orbit__icon {
+  font-size: 1.25rem;
+  line-height: 1;
+  display: block;
+  transition: transform 0.3s var(--ease-elastic);
+}
+
+.mood-orbit__item:hover .mood-orbit__icon {
+  transform: scale(1.15);
+}
+
+/* Floating Tooltip (Appears to the Left) */
+.mood-orbit__tooltip {
+  position: absolute;
+  right: 140%;
+  /* Push to left */
+  top: 50%;
+  transform: translateY(-50%) translateX(10px);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
   opacity: 0;
-  transition: opacity var(--transition-fast);
+  visibility: hidden;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
 }
 
-.mood-selector-dock__item--active .mood-selector-dock__indicator {
+/* Tooltip Arrow */
+.mood-orbit__tooltip::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 4px 0 4px 4px;
+  border-style: solid;
+  border-color: transparent transparent transparent rgba(0, 0, 0, 0.8);
+}
+
+.mood-orbit__item:hover .mood-orbit__tooltip {
   opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
 }
 
-/* Magnification effect on hover (like macOS Dock) */
-.mood-selector-dock__track:hover .mood-selector-dock__item:not(:hover):not(.mood-selector-dock__item--active) {
-  transform: scale(0.92);
+/* Entrance Animation */
+.mood-orbit {
+  animation: orbitDropIn 0.6s var(--ease-elastic) backwards;
 }
 
-/* ============================================
-   ANIMATION
-   ============================================ */
-
-.mood-selector-dock {
-  animation: dockSlideUp var(--transition-slow) ease-out;
-  animation-delay: 400ms;
-  animation-fill-mode: backwards;
-}
-
-@keyframes dockSlideUp {
+@keyframes orbitDropIn {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(30px);
+    transform: translateY(-20px) scale(0.9);
   }
+
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
-
-@media (max-width: 768px) {
-  .mood-selector-dock__item {
-    width: 56px;
-    height: 56px;
-  }
-  
-  .mood-selector-dock__icon {
-    font-size: 1.5rem;
-  }
-  
-  .mood-selector-dock__label {
-    font-size: 0.5rem;
-  }
-  
-  .mood-selector-dock__track {
-    padding: var(--space-1);
-    gap: 0.25rem;
-  }
-}
-
+/* Mobile Adjustments */
 @media (max-width: 480px) {
-  .mood-selector-dock__item {
-    width: 48px;
-    height: 48px;
+  .mood-orbit {
+    top: 1rem;
+    right: 1rem;
   }
-  
-  .mood-selector-dock__label {
-    display: none;
+
+  :root {
+    --orbit-width: 50px;
+  }
+
+  .mood-orbit__icon {
+    font-size: 1rem;
   }
 }
 
 /* ============================================
-   MOOD-SPECIFIC STYLING
+   INTEGRATION MODIFIERS
    ============================================ */
 
-.vibe-feminine .mood-selector-dock__track {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 182, 193, 0.3);
+/* Static positioning for embedding in other containers (like NavBar) */
+.mood-orbit--static {
+  position: relative;
+  top: auto;
+  right: auto;
+  z-index: auto;
+  animation: none;
 }
 
-.vibe-energetic .mood-selector-dock__track {
-  background: rgba(0, 0, 0, 0.4);
-  border-color: rgba(255, 184, 1, 0.3);
+/* Horizontal Layout - styles handled by modifier classes on children */
+
+.mood-orbit--horizontal .mood-orbit__track {
+  flex-direction: row;
+  height: 44px;
+  /* Matches item height */
+  width: auto;
+  padding: 4px;
+  background: var(--orbit-bg);
+  border-radius: 99px;
+  transition: width 0.3s var(--ease-elastic), padding 0.3s ease;
+  overflow: hidden;
 }
 
-.vibe-calm .mood-selector-dock__track {
+/* Collapsed State */
+.mood-orbit--collapsed .mood-orbit__track {
+  width: 52px;
+  /* Just enough for one icon */
+  padding: 4px;
+}
+
+.mood-orbit--collapsed .mood-orbit__item {
+  display: none;
+}
+
+.mood-orbit--collapsed .mood-orbit__glider {
+  display: none;
+}
+
+/* Toggle Button (Visible when collapsed) */
+.mood-orbit__toggle-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: white;
+  font-size: 1.25rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.mood-orbit--collapsed .mood-orbit__toggle-btn {
+  display: flex;
+}
+
+/* Expanded State */
+.mood-orbit--expanded .mood-orbit__track {
+  width: auto;
+  /* roughly 4 items * (44px + 8px gap) + padding */
+  padding-right: 12px;
+}
+
+.mood-orbit--expanded .mood-orbit__toggle-btn {
+  display: flex;
+  margin-right: 8px;
+  /* Separator */
   background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(26, 188, 156, 0.2);
+}
+
+.mood-orbit--horizontal .mood-orbit__glider {
+  height: calc(100% - 8px);
+  top: 4px;
+  bottom: 4px;
+  left: auto;
+  transition: transform 0.4s var(--ease-elastic), width 0.3s ease;
+}
+
+.mood-orbit--horizontal .mood-orbit__tooltip {
+  right: auto;
+  top: 140%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+}
+
+.mood-orbit--horizontal .mood-orbit__tooltip::after {
+  right: auto;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 4px 4px 4px;
+  border-color: transparent transparent rgba(0, 0, 0, 0.8) transparent;
+}
+
+.mood-orbit--horizontal .mood-orbit__item:hover .mood-orbit__tooltip {
+  transform: translateX(-50%) translateY(0);
 }

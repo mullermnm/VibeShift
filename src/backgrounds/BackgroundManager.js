@@ -14,7 +14,7 @@ class BackgroundManager {
     this.unsplash = new UnsplashAPI();
     this.backgroundElement = document.getElementById('background-layer');
     this.currentMood = null;
-    
+
     // Cache duration: 24 hours
     this.CACHE_DURATION = 24 * 60 * 60 * 1000;
   }
@@ -25,27 +25,34 @@ class BackgroundManager {
    */
   async loadBackground(moodConfig) {
     const mood = moodConfig.id;
-    
+
     // Check if same mood (avoid unnecessary reload)
     if (this.currentMood === mood) {
       return;
     }
-    
+
     this.currentMood = mood;
     const bgConfig = moodConfig.background;
-    
+
+    // Check for user preference
+    const preferredUrl = await this.getPreferredBackground(mood);
+    if (preferredUrl) {
+      await this.setBackground(preferredUrl, bgConfig);
+      return;
+    }
+
     // Try to load from cache first
     const cachedUrl = await this.getCachedBackground(mood);
-    
+
     if (cachedUrl) {
       await this.setBackground(cachedUrl, bgConfig);
       return;
     }
-    
+
     // Try to fetch from Unsplash
     try {
       const imageUrl = await this.unsplash.fetchRandomImage(bgConfig.unsplashQuery);
-      
+
       if (imageUrl) {
         await this.setBackground(imageUrl, bgConfig);
         await this.cacheBackground(mood, imageUrl);
@@ -54,10 +61,32 @@ class BackgroundManager {
     } catch (error) {
       console.warn('Failed to fetch from Unsplash, using fallback:', error);
     }
-    
+
     // Fallback to local image
     this.setFallbackBackground(bgConfig.fallbackImage, bgConfig);
   }
+
+  /**
+   * Get preferred background for mood
+   * @param {string} mood - Mood ID
+   * @returns {Promise<string|null>} Preferred URL
+   */
+  async getPreferredBackground(mood) {
+    const prefs = await this.storageManager.load('user_preferences', {});
+    return prefs[`bg_${mood}`] || null;
+  }
+
+  /**
+   * Set preferred background for mood
+   * @param {string} mood - Mood ID
+   * @param {string} url - Image URL
+   */
+  async setPreferredBackground(mood, url) {
+    const prefs = await this.storageManager.load('user_preferences', {});
+    prefs[`bg_${mood}`] = url;
+    await this.storageManager.save('user_preferences', prefs);
+  }
+
 
   /**
    * Set background image with smooth transition
@@ -66,27 +95,27 @@ class BackgroundManager {
    */
   async setBackground(imageUrl, config) {
     if (!this.backgroundElement) return;
-    
+
     // Preload image
     const img = new Image();
     img.src = imageUrl;
-    
+
     try {
       await this.waitForImageLoad(img);
-      
+
       // Fade out current background
       this.backgroundElement.style.opacity = '0';
-      
+
       // Wait for fade transition
       await this.sleep(300);
-      
+
       // Set new background
       this.backgroundElement.style.backgroundImage = `url('${imageUrl}')`;
       this.applyBackgroundFilters(config);
-      
+
       // Fade in
       this.backgroundElement.style.opacity = '1';
-      
+
     } catch (error) {
       console.error('Failed to load background image:', error);
       this.setFallbackBackground(config.fallbackImage, config);
@@ -100,7 +129,7 @@ class BackgroundManager {
    */
   setFallbackBackground(fallbackImage, config) {
     if (!this.backgroundElement) return;
-    
+
     // Use gradient as ultimate fallback
     const gradients = {
       'focused.jpg': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -108,26 +137,26 @@ class BackgroundManager {
       'energetic.jpg': 'linear-gradient(135deg, #FF6B35 0%, #F7B801 50%, #6A00F4 100%)',
       'calm.jpg': 'linear-gradient(135deg, #5DADE2 0%, #1ABC9C 50%, #85C1E9 100%)'
     };
-    
+
     const gradient = gradients[fallbackImage] || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-    
+
     // Try local image first, fallback to gradient
     const localUrl = `backgrounds/fallback/${fallbackImage}`;
     const img = new Image();
-    
+
     img.onload = () => {
       this.backgroundElement.style.backgroundImage = `url('${localUrl}')`;
       this.applyBackgroundFilters(config);
       this.backgroundElement.style.opacity = '1';
     };
-    
+
     img.onerror = () => {
       // Use gradient as fallback
       this.backgroundElement.style.backgroundImage = gradient;
       this.applyBackgroundFilters(config);
       this.backgroundElement.style.opacity = '1';
     };
-    
+
     img.src = localUrl;
   }
 
@@ -137,15 +166,15 @@ class BackgroundManager {
    */
   applyBackgroundFilters(config) {
     if (!this.backgroundElement) return;
-    
+
     const filters = [];
-    
+
     if (config.blur && config.blur > 0) {
       filters.push(`blur(${config.blur}px)`);
     }
-    
+
     this.backgroundElement.style.filter = filters.length > 0 ? filters.join(' ') : 'none';
-    
+
     // Update CSS custom property for overlay
     document.documentElement.style.setProperty('--background-overlay-opacity', config.overlayOpacity || 0.2);
   }
@@ -159,13 +188,13 @@ class BackgroundManager {
     try {
       const cache = await this.storageManager.loadLocal('backgroundCache', {});
       const cached = cache[mood];
-      
+
       if (!cached) return null;
-      
+
       // Check if cache is expired
       const isExpired = Date.now() - cached.timestamp > this.CACHE_DURATION;
       if (isExpired) return null;
-      
+
       return cached.url;
     } catch (error) {
       console.warn('Failed to get cached background:', error);
@@ -223,7 +252,7 @@ class BackgroundManager {
       } else {
         img.onload = () => resolve();
         img.onerror = () => reject(new Error('Image load failed'));
-        
+
         // Timeout after 10 seconds
         setTimeout(() => reject(new Error('Image load timeout')), 10000);
       }

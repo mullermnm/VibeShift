@@ -38,7 +38,7 @@
   color: var(--color-text);
   margin-bottom: var(--space-3);
   font-style: italic;
-  transition: 
+  transition:
     opacity 300ms ease-out,
     transform 300ms ease-out;
 }
@@ -99,9 +99,12 @@
 
 /* Focused - Bottom Subtle */
 .quote-card--bottom-subtle {
-  bottom: var(--space-8);
-  left: 50%;
-  transform: translateX(-50%);
+  grid-area: quote;
+  position: relative;
+  bottom: auto;
+  left: auto;
+  transform: none;
+  width: 100%;
 }
 
 .quote-card--bottom-subtle .quote-card__container {
@@ -122,10 +125,14 @@
 
 /* Feminine - Center Elegant */
 .quote-card--center-elegant {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 500px;
+  grid-area: quote;
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  width: 100%;
+  max-width: 600px;
+  justify-self: center;
 }
 
 .quote-card--center-elegant .quote-card__container {
@@ -133,7 +140,7 @@
   border: 2px solid rgba(255, 255, 255, 0.25);
   border-radius: var(--radius-2xl);
   padding: var(--space-6);
-  box-shadow: 
+  box-shadow:
     0 20px 60px rgba(255, 105, 180, 0.2),
     var(--glass-inner-glow);
 }
@@ -145,17 +152,26 @@
 
 /* Energetic - Top Bold */
 .quote-card--top-bold {
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
+  grid-area: header;
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .quote-card--top-bold .quote-card__container {
   background: rgba(255, 107, 53, 0.15);
   border: 2px solid rgba(255, 184, 1, 0.3);
-  box-shadow: 
+  box-shadow:
     0 20px 60px rgba(255, 107, 53, 0.25),
     0 0 40px rgba(247, 184, 1, 0.15);
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
 }
 
 .quote-card--top-bold .quote-card__text {
@@ -176,25 +192,58 @@
   display: none;
 }
 
-/* Calm - Bottom Right Zen */
+/* Calm - Nurturing Thoughts */
 .quote-card--center-zen {
-  bottom: var(--space-8);
-  right: var(--space-8);
-  left: auto;
-  max-width: 400px;
+  grid-area: quote;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  /* Fill container */
+  justify-self: stretch;
 }
 
 .quote-card--center-zen .quote-card__container {
-  background: rgba(93, 173, 226, 0.08);
-  border: 1px solid rgba(26, 188, 156, 0.2);
-  padding: var(--space-4);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 24px;
+  color: #2c3e50;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.quote-card--center-zen::before {
+  content: "Nurturing Thoughts";
+  display: block;
+  text-align: left;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #2c3e50;
 }
 
 .quote-card--center-zen .quote-card__text {
-  font-size: var(--font-size-lg);
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.9);
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: #34495e;
 }
+
+.quote-card--center-zen .quote-card__author {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  color: #7f8c8d;
+  display: block;
+  margin-top: 8px;
+}
+
+/* Action Buttons for Quote (Specific to this mood/layout if we can add them via JS or just CSS psuedo mostly static) */
+/* Ideally QuoteCard.js should render these buttons, but for CSS-only tweaks: */
+/* We'll just style the existing container prettily. */
 
 /* ============================================
    RESPONSIVE
@@ -204,17 +253,17 @@
   .quote-card {
     max-width: calc(100% - var(--space-8));
   }
-  
+
   .quote-card__text {
     font-size: var(--font-size-base);
   }
-  
+
   .quote-card--center-elegant {
     position: fixed;
     top: auto;
     bottom: var(--space-8);
   }
-  
+
   .quote-card--center-zen {
     right: auto;
     left: 50%;
@@ -235,6 +284,7 @@
     opacity: 0;
     transform: translateX(-50%) translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateX(-50%) translateY(0);

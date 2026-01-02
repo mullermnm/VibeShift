@@ -1,0 +1,139 @@
+.sound-player {
+    grid-area: player;
+    width: 100%;
+}
+
+.sound-player__card {
+    padding: 20px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.7);
+    /* Lighter glass */
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    color: #2c3e50;
+}
+
+.sound-player__top-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sound-player__play-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: #546E7A;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: transform 0.2s;
+}
+
+.sound-player__play-btn:hover {
+    transform: scale(1.1);
+}
+
+.sound-player__title {
+    flex: 1;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.sound-player__volume {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: #7f8c8d;
+}
+
+.volume-slider {
+    width: 80px;
+    accent-color: #546E7A;
+}
+
+.sound-player__info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sound-player__track-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.sound-player__waveform {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 30px;
+    position: relative;
+    /* Placeholder visualization */
+}
+
+.wave-bar {
+    width: 3px;
+    height: 100%;
+    background: #bdc3c7;
+    border-radius: 2px;
+    animation: wave 1s infinite ease-in-out;
+    animation-play-state: paused;
+}
+
+.sound-player.playing .wave-bar {
+    animation-play-state: running;
+}
+
+.wave-bar:nth-child(odd) {
+    animation-duration: 0.8s;
+}
+
+.wave-bar:nth-child(2n) {
+    animation-duration: 1.1s;
+}
+
+.wave-bar:nth-child(3n) {
+    animation-duration: 1.3s;
+}
+
+@keyframes wave {
+
+    0%,
+    100% {
+        height: 30%;
+    }
+
+    50% {
+        height: 100%;
+    }
+}
+
+.sound-player__time {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: #7f8c8d;
+}
+
+.sound-player__change-btn {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #34495e;
+    width: 100%;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.sound-player__change-btn:hover {
+    background: white;
+}
