@@ -48,17 +48,9 @@ class BackgroundManager {
       return;
     }
 
-    // Try to load from cache first
-    const cachedUrl = await this.getCachedBackground(mood);
-
-    if (cachedUrl) {
-      console.log('🔄 Using cached background:', cachedUrl);
-      // Clear cache to force fresh load with new URLs
-      await this.clearCache();
-      console.log('🗑️ Cache cleared, fetching fresh image');
-    } else {
-      console.log('📭 No cached background found');
-    }
+    // Clear cache first to ensure fresh images
+    await this.clearCache();
+    console.log('🗑️ Cache cleared for fresh image load');
 
     // Try to fetch sample image
     try {
