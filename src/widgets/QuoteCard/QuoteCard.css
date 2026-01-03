@@ -125,29 +125,28 @@
 
 /* Feminine - Center Elegant */
 .quote-card--center-elegant {
-  grid-area: quote;
-  position: relative;
-  top: auto;
-  left: auto;
-  transform: none;
+  position: absolute;
+  bottom: var(--space-8);
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
   max-width: 600px;
-  justify-self: center;
+  z-index: var(--z-widgets);
 }
 
 .quote-card--center-elegant .quote-card__container {
   background: rgba(255, 255, 255, 0.15);
   border: 2px solid rgba(255, 255, 255, 0.25);
   border-radius: var(--radius-2xl);
-  padding: var(--space-6);
+  padding: var(--space-4);
   box-shadow:
     0 20px 60px rgba(255, 105, 180, 0.2),
     var(--glass-inner-glow);
 }
 
 .quote-card--center-elegant .quote-card__text {
-  font-size: var(--font-size-2xl);
-  line-height: 1.8;
+  font-size: var(--font-size-xl);
+  line-height: 1.6;
 }
 
 /* Energetic - Top Bold */
@@ -282,11 +281,11 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(20px);
+    transform: translate(-50%, -40%);
   }
 
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translate(-50%, -50%);
   }
 }
