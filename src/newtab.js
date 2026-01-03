@@ -130,10 +130,13 @@ class VibeShiftApp {
     this.moodSelector = new MoodSelector(this.moodEngine, this.eventBus);
     const selectorEl = this.moodSelector.render();
 
-    // Apply static & horizontal styles for navbar integration
-    selectorEl.classList.add('mood-orbit--static', 'mood-orbit--horizontal');
-
-    moodSelectorContainer.appendChild(selectorEl);
+    // Add mood selector to the right side of navbar
+    const navBarRight = document.querySelector('.nav-bar__right');
+    if (navBarRight) {
+      // Apply horizontal layout for navbar
+      selectorEl.classList.add('mood-orbit--static', 'mood-orbit--horizontal');
+      navBarRight.appendChild(selectorEl);
+    }
 
     // Initial update for NavBar mood state
     this.navBar.updateForMood(this.moodEngine.getCurrentMood());

@@ -3,13 +3,13 @@
    ============================================ */
 
 :root {
-  --orbit-width: 60px;
-  --orbit-gap: 8px;
-  --orbit-bg: rgba(20, 20, 25, 0.65);
-  --orbit-border: rgba(255, 255, 255, 0.1);
+  --orbit-width: 44px;
+  --orbit-gap: 4px;
+  --orbit-bg: rgba(255, 255, 255, 0.1);
+  --orbit-border: rgba(255, 255, 255, 0.2);
   --orbit-glow: rgba(255, 255, 255, 0.15);
-  --orbit-active-bg: #ffffff;
-  --orbit-active-text: #000000;
+  --orbit-active-bg: rgba(255, 255, 255, 0.25);
+  --orbit-active-text: #ffffff;
   --ease-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -190,8 +190,7 @@
   animation: none;
 }
 
-/* Horizontal Layout - styles handled by modifier classes on children */
-
+/* Horizontal Layout - for navbar integration */
 .mood-orbit--horizontal .mood-orbit__track {
   flex-direction: row;
   height: 44px;

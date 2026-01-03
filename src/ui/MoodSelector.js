@@ -28,29 +28,28 @@ class MoodSelector {
 
   render() {
     this.element = document.createElement('div');
-    this.element.className = 'mood-orbit mood-orbit--static mood-orbit--horizontal mood-orbit--collapsed';
+    this.element.className = 'mood-orbit';
 
     const moods = [
       { id: 'focused', icon: '🎯', label: 'Focused' },
-      { id: 'feminine', icon: '🌸', label: 'Feminine' },
-      { id: 'energetic', icon: '⚡', label: 'Energetic' },
-      { id: 'calm', icon: '🍃', label: 'Calm' }
+      { id: 'feminine', icon: '✨', label: 'Feminine' },
+      { id: 'energetic', icon: '🔥', label: 'Energetic' },
     ];
 
     const track = document.createElement('div');
     track.className = 'mood-orbit__track';
 
-    // Current Mood Indicator (Visible when collapsed)
-    const toggleBtn = document.createElement('button');
-    toggleBtn.className = 'mood-orbit__toggle-btn';
-    toggleBtn.innerHTML = '<span class="mood-orbit__toggle-icon">✨</span>'; // Placeholder, will update
-    toggleBtn.onclick = this.toggleExpand;
-    this.element.appendChild(toggleBtn);
-
     // Glider background
     const glider = document.createElement('div');
     glider.className = 'mood-orbit__glider';
     track.appendChild(glider);
+
+    // Current Mood Indicator (Visible when collapsed)
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'mood-orbit__toggle-btn';
+    toggleBtn.innerHTML = '<span class="mood-orbit__toggle-icon"></span>'; // Placeholder, will update
+    toggleBtn.onclick = this.toggleExpand;
+    this.element.appendChild(toggleBtn);
 
     // Mood Items
     moods.forEach(mood => {
