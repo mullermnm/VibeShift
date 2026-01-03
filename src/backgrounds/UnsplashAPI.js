@@ -41,12 +41,17 @@ class UnsplashAPI {
     const sampleImages = {
       'minimalist workspace architecture white': 'https://images.unsplash.com/photo-1586953208448-953f3686f9d5?w=1920&h=1080&fit=crop',
       'soft aesthetic flowers pastel sky': 'https://images.unsplash.com/photo-1528722828814-77b9b83aafb2?w=1920&h=1080&fit=crop',
-      'neon city cyber dark vibrant': 'https://images.unsplash.com/photo-1518717255285-4d6d5ab7a9a3?w=1920&h=1080&fit=crop',
+      'neon city cyber dark vibrant': 'https://images.unsplash.com/photo-1519707228916-ff0ccf6322a2?w=1920&h=1080&fit=crop',
       'nature forest zen lake mist': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop',
       'library books minimal': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=1080&fit=crop',
       'cherry blossom pink aesthetic': 'https://images.unsplash.com/photo-1522383579892-6a5f1b4b9c7c?w=1920&h=1080&fit=crop',
       'vibrant sunset colorful': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop',
-      'calm ocean waves peaceful': 'https://images.unsplash.com/photo-1505142468629-6a5f1b4b9c7c?w=1920&h=1080&fit=crop'
+      'calm ocean waves peaceful': 'https://images.unsplash.com/photo-1505142468629-6a5f1b4b9c7c?w=1920&h=1080&fit=crop',
+      // Additional working images
+      'energetic': 'https://images.unsplash.com/photo-1519707228916-ff0ccf6322a2?w=1920&h=1080&fit=crop',
+      'focused': 'https://images.unsplash.com/photo-1586953208448-953f3686f9d5?w=1920&h=1080&fit=crop',
+      'feminine': 'https://images.unsplash.com/photo-1528722828814-77b9b83aafb2?w=1920&h=1080&fit=crop',
+      'calm': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop'
     };
 
     // Try to find exact match
@@ -64,9 +69,27 @@ class UnsplashAPI {
       }
     }
 
+    // Try to match by mood keywords
+    if (query.toLowerCase().includes('energetic')) {
+      console.log('Using energetic image for query:', query);
+      return sampleImages['energetic'];
+    }
+    if (query.toLowerCase().includes('focused')) {
+      console.log('Using focused image for query:', query);
+      return sampleImages['focused'];
+    }
+    if (query.toLowerCase().includes('feminine')) {
+      console.log('Using feminine image for query:', query);
+      return sampleImages['feminine'];
+    }
+    if (query.toLowerCase().includes('calm')) {
+      console.log('Using calm image for query:', query);
+      return sampleImages['calm'];
+    }
+
     // Default fallback
     console.log('Using default sample image for query:', query);
-    return sampleImages['minimalist workspace architecture white'];
+    return sampleImages['focused'];
   }
 
   /**
