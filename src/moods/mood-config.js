@@ -21,7 +21,7 @@ const MOOD_CONFIGS = {
     },
 
     widgets: {
-      SearchBar: { visible: true, layout: 'centered-large' },
+      SearchBar: { visible: true, layout: 'top-elegant' },
       Clock: { visible: false },
       QuoteCard: { visible: true, layout: 'bottom-subtle' },
       FocusTimer: { visible: false },

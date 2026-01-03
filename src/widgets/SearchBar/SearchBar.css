@@ -211,27 +211,13 @@
    LAYOUT VARIANTS - MOOD SPECIFIC
    ============================================ */
 
-/* 🎯 FOCUSED MOOD - Large, Centered, Zen */
+/* 🎯 FOCUSED MOOD - Use elegant positioning */
 .search-bar--centered-large {
-  grid-area: search;
-  position: relative;
-  /* Reset absolute */
-  top: auto;
-  left: auto;
-  transform: none;
-  width: 100%;
-  max-width: 100%;
-  /* Let grid control width */
-  margin: 0 auto;
-}
-
-.search-bar--centered-large .search-bar__input-wrapper {
-  padding: var(--space-5) var(--space-6);
-  background: rgba(255, 255, 255, 0.06);
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.2),
-    inset 0 2px 4px rgba(255, 255, 255, 0.12);
+  top: var(--space-8);
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 520px;
+  position: absolute;
 }
 
 .search-bar--centered-large .search-bar__input {
@@ -298,12 +284,12 @@
     inset 0 2px 6px rgba(255, 255, 255, 0.4);
 }
 
-/* 🔥 ENERGETIC MOOD - Bold, Vibrant, Utility */
+/* 🔥 ENERGETIC MOOD - Use elegant positioning */
 .search-bar--top-compact {
-  top: var(--space-5);
+  top: var(--space-8);
   left: 50%;
   transform: translateX(-50%);
-  max-width: 440px;
+  max-width: 520px;
 }
 
 .search-bar--top-compact .search-bar__input-wrapper {
@@ -358,19 +344,15 @@
   animation: energeticPulse 2s ease-in-out infinite;
 }
 
-/* 🌊 CALM MOOD - Minimal, Serene (Hidden by default) */
+/* 🌊 CALM MOOD - Use elegant positioning */
 .search-bar--minimal {
-  opacity: 0;
-  pointer-events: none;
-  transform: scale(0.95) translateY(20px);
-  transition: all var(--transition-slow);
-}
-
-/* Optional: Show on hover in calm mode */
-.vibe-calm:hover .search-bar--minimal {
-  opacity: 0.7;
+  top: var(--space-8);
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 520px;
+  opacity: 1;
   pointer-events: all;
-  transform: scale(1) translateY(0);
+  transition: all var(--transition-slow);
 }
 
 /* ============================================
