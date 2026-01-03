@@ -220,7 +220,7 @@
 
 /* Toggle Button (Visible when collapsed) */
 .mood-orbit__toggle-btn {
-  display: none;
+  display: flex;
   background: transparent;
   border: none;
   width: 44px;
@@ -231,10 +231,14 @@
   font-size: 1.25rem;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
 }
 
-.mood-orbit--collapsed .mood-orbit__toggle-btn {
-  display: flex;
+.mood-orbit--expanded .mood-orbit__toggle-btn {
+  display: none;
 }
 
 /* Expanded State */
@@ -244,11 +248,12 @@
   padding-right: 12px;
 }
 
-.mood-orbit--expanded .mood-orbit__toggle-btn {
+.mood-orbit--expanded .mood-orbit__item {
   display: flex;
-  margin-right: 8px;
-  /* Separator */
-  background: rgba(255, 255, 255, 0.1);
+}
+
+.mood-orbit--expanded .mood-orbit__glider {
+  display: block;
 }
 
 .mood-orbit--horizontal .mood-orbit__glider {

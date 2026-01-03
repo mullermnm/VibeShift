@@ -28,7 +28,7 @@ class MoodSelector {
 
   render() {
     this.element = document.createElement('div');
-    this.element.className = 'mood-orbit';
+    this.element.className = 'mood-orbit mood-orbit--collapsed';
 
     const moods = [
       { id: 'focused', icon: '🎯', label: 'Focused' },
@@ -37,8 +37,20 @@ class MoodSelector {
       { id: 'calm', icon: '🌊', label: 'Calm' }
     ];
 
+    // Toggle button (shows current mood)
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'mood-orbit__toggle-btn';
+    toggleBtn.innerHTML = '<span class="mood-orbit__toggle-icon">🎯</span>'; // Will be updated
+    toggleBtn.onclick = this.toggleExpand;
+    this.element.appendChild(toggleBtn);
+
     const track = document.createElement('div');
     track.className = 'mood-orbit__track';
+
+    // Glider background
+    const glider = document.createElement('div');
+    glider.className = 'mood-orbit__glider';
+    track.appendChild(glider);
 
     // Mood Items
     moods.forEach(mood => {
@@ -48,11 +60,15 @@ class MoodSelector {
       btn.setAttribute('aria-label', `Switch to ${mood.label} mood`);
       btn.setAttribute('role', 'tab'); // Add role for accessibility
 
-      btn.innerHTML = `<span class="mood-orbit__icon">${mood.icon}</span>`;
+      btn.innerHTML = `
+        <span class="mood-orbit__icon">${mood.icon}</span>
+        <span class="mood-orbit__tooltip">${mood.label}</span>
+      `;
 
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         this.handleMoodSelect(mood.id);
+        this.collapse(); // Auto collapse on select
       });
 
       track.appendChild(btn);
