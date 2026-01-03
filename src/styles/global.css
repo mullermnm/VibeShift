@@ -9,7 +9,7 @@
 
 body {
   min-height: 100vh;
-  background-color: #0a0a0a;
+  background-color: transparent;
   color: var(--color-text);
   font-family: var(--font-text);
   font-weight: 400;
