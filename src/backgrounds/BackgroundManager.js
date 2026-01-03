@@ -37,6 +37,7 @@ class BackgroundManager {
     // Check for user preference
     const preferredUrl = await this.getPreferredBackground(mood);
     if (preferredUrl) {
+      console.log('Using preferred background:', preferredUrl);
       await this.setBackground(preferredUrl, bgConfig);
       return;
     }
@@ -45,25 +46,30 @@ class BackgroundManager {
     const cachedUrl = await this.getCachedBackground(mood);
 
     if (cachedUrl) {
+      console.log('Using cached background:', cachedUrl);
       await this.setBackground(cachedUrl, bgConfig);
       return;
     }
 
     // Try to fetch from Unsplash
     try {
+      console.log('Fetching Unsplash image for query:', bgConfig.unsplashQuery);
       const imageUrl = await this.unsplash.fetchRandomImage(bgConfig.unsplashQuery);
 
       if (imageUrl) {
+        console.log('Successfully fetched Unsplash image:', imageUrl);
         await this.setBackground(imageUrl, bgConfig);
         await this.cacheBackground(mood, imageUrl);
         return;
+      } else {
+        console.log('Unsplash returned null image');
       }
     } catch (error) {
       console.warn('Failed to fetch from Unsplash, using fallback:', error);
     }
 
-    // Fallback to local image
-    this.setFallbackBackground(bgConfig.fallbackImage, bgConfig);
+    // Fallback to gradient
+    this.setFallbackGradient(bgConfig);
   }
 
   /**
@@ -118,46 +124,23 @@ class BackgroundManager {
 
     } catch (error) {
       console.error('Failed to load background image:', error);
-      this.setFallbackBackground(config.fallbackImage, config);
+      this.setFallbackGradient(config);
     }
   }
 
   /**
-   * Set fallback background (local image or gradient)
-   * @param {string} fallbackImage - Fallback image filename
+   * Set fallback gradient background
    * @param {Object} config - Background config
    */
-  setFallbackBackground(fallbackImage, config) {
+  setFallbackGradient(config) {
     if (!this.backgroundElement) return;
 
-    // Use gradient as ultimate fallback
-    const gradients = {
-      'focused.jpg': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      'feminine.jpg': 'linear-gradient(135deg, #FFB6C1 0%, #FF69B4 50%, #FFC0CB 100%)',
-      'energetic.jpg': 'linear-gradient(135deg, #FF6B35 0%, #F7B801 50%, #6A00F4 100%)',
-      'calm.jpg': 'linear-gradient(135deg, #5DADE2 0%, #1ABC9C 50%, #85C1E9 100%)'
-    };
-
-    const gradient = gradients[fallbackImage] || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-
-    // Try local image first, fallback to gradient
-    const localUrl = `backgrounds/fallback/${fallbackImage}`;
-    const img = new Image();
-
-    img.onload = () => {
-      this.backgroundElement.style.backgroundImage = `url('${localUrl}')`;
-      this.applyBackgroundFilters(config);
-      this.backgroundElement.style.opacity = '1';
-    };
-
-    img.onerror = () => {
-      // Use gradient as fallback
-      this.backgroundElement.style.backgroundImage = gradient;
-      this.applyBackgroundFilters(config);
-      this.backgroundElement.style.opacity = '1';
-    };
-
-    img.src = localUrl;
+    // Use neutral gradient as fallback
+    const gradient = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+    
+    this.backgroundElement.style.backgroundImage = gradient;
+    this.applyBackgroundFilters(config);
+    this.backgroundElement.style.opacity = '1';
   }
 
   /**
@@ -167,13 +150,8 @@ class BackgroundManager {
   applyBackgroundFilters(config) {
     if (!this.backgroundElement) return;
 
-    const filters = [];
-
-    if (config.blur && config.blur > 0) {
-      filters.push(`blur(${config.blur}px)`);
-    }
-
-    this.backgroundElement.style.filter = filters.length > 0 ? filters.join(' ') : 'none';
+    // No filters for natural images
+    this.backgroundElement.style.filter = 'none';
 
     // Update CSS custom property for overlay
     document.documentElement.style.setProperty('--background-overlay-opacity', config.overlayOpacity || 0.2);

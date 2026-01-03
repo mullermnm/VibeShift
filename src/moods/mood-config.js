@@ -41,7 +41,6 @@ const MOOD_CONFIGS = {
 
     background: {
       unsplashQuery: 'minimalist workspace architecture white',
-      fallbackImage: 'focused.jpg',
       overlayOpacity: 0.1,
       blur: 0
     },
@@ -106,7 +105,6 @@ const MOOD_CONFIGS = {
 
     background: {
       unsplashQuery: 'soft aesthetic flowers pastel sky',
-      fallbackImage: 'feminine.jpg',
       overlayOpacity: 0.2,
       blur: 2
     },
@@ -171,7 +169,6 @@ const MOOD_CONFIGS = {
 
     background: {
       unsplashQuery: 'neon city cyber dark vibrant',
-      fallbackImage: 'energetic.jpg',
       overlayOpacity: 0.4,
       blur: 0
     },
@@ -236,7 +233,6 @@ const MOOD_CONFIGS = {
 
     background: {
       unsplashQuery: 'nature forest zen lake mist',
-      fallbackImage: 'calm.jpg',
       overlayOpacity: 0.3,
       blur: 2
     },

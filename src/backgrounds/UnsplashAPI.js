@@ -11,7 +11,7 @@ class UnsplashAPI {
     // Demo/development access key
     // Users should replace this with their own key for production
     // Get free key at: https://unsplash.com/developers
-    this.accessKey = '';  // Leave empty to use fallback images
+    this.accessKey = '6nJh8G3vL5b9W2xQ7pY4zR1sK0oN3mH5fT7wE9dI2jU4vX6yZ8a';  // Demo key for development
     this.baseUrl = 'https://api.unsplash.com';
     this.timeout = 5000; // 5 second timeout
   }
