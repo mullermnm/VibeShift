@@ -51,24 +51,24 @@ class BackgroundManager {
       return;
     }
 
-    // Try to fetch from Unsplash
+    // Try to fetch sample image
     try {
-      console.log('Fetching Unsplash image for query:', bgConfig.unsplashQuery);
+      console.log('Fetching sample image for query:', bgConfig.unsplashQuery);
       const imageUrl = await this.unsplash.fetchRandomImage(bgConfig.unsplashQuery);
 
       if (imageUrl) {
-        console.log('Successfully fetched Unsplash image:', imageUrl);
+        console.log('Successfully fetched sample image:', imageUrl);
         await this.setBackground(imageUrl, bgConfig);
         await this.cacheBackground(mood, imageUrl);
         return;
       } else {
-        console.log('Unsplash returned null image');
+        console.log('No sample image found');
       }
     } catch (error) {
-      console.warn('Failed to fetch from Unsplash, using fallback:', error);
+      console.warn('Failed to fetch sample image:', error);
     }
 
-    // Fallback to gradient
+    // Fallback to transparent
     this.setFallbackGradient(bgConfig);
   }
 
@@ -135,10 +135,8 @@ class BackgroundManager {
   setFallbackGradient(config) {
     if (!this.backgroundElement) return;
 
-    // Use neutral gradient as fallback
-    const gradient = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-    
-    this.backgroundElement.style.backgroundImage = gradient;
+    // Use transparent fallback - no gradient
+    this.backgroundElement.style.backgroundImage = 'none';
     this.applyBackgroundFilters(config);
     this.backgroundElement.style.opacity = '1';
   }
