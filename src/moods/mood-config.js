@@ -23,7 +23,7 @@ const MOOD_CONFIGS = {
     widgets: {
       SearchBar: { visible: true, layout: 'top-elegant' },
       Clock: { visible: false },
-      QuoteCard: { visible: true, layout: 'bottom-subtle' },
+      QuoteCard: { visible: true, layout: 'center-elegant' },
       FocusTimer: { visible: false },
       BreathingGuide: { visible: false },
       NewsWidget: { visible: false },
@@ -141,9 +141,9 @@ const MOOD_CONFIGS = {
     },
 
     widgets: {
-      SearchBar: { visible: true, layout: 'top-compact' },
+      SearchBar: { visible: true, layout: 'top-elegant' },
       Clock: { visible: true, layout: 'top-left-bold' },
-      QuoteCard: { visible: true, layout: 'top-bold' },
+      QuoteCard: { visible: true, layout: 'center-elegant' },
       FocusTimer: { visible: false },
       BreathingGuide: { visible: false },
       NewsWidget: { visible: false },
@@ -205,9 +205,9 @@ const MOOD_CONFIGS = {
     },
 
     widgets: {
-      SearchBar: { visible: false },
+      SearchBar: { visible: true, layout: 'top-elegant' },
       Clock: { visible: true, layout: 'top-center-minimal' },
-      QuoteCard: { visible: true, layout: 'center-zen' },
+      QuoteCard: { visible: true, layout: 'center-elegant' },
       FocusTimer: { visible: false },
       BreathingGuide: { visible: true, layout: 'center-large' },
       NewsWidget: { visible: false },
