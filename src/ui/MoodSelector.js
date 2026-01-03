@@ -34,22 +34,11 @@ class MoodSelector {
       { id: 'focused', icon: '🎯', label: 'Focused' },
       { id: 'feminine', icon: '✨', label: 'Feminine' },
       { id: 'energetic', icon: '🔥', label: 'Energetic' },
+      { id: 'calm', icon: '🌊', label: 'Calm' }
     ];
 
     const track = document.createElement('div');
     track.className = 'mood-orbit__track';
-
-    // Glider background
-    const glider = document.createElement('div');
-    glider.className = 'mood-orbit__glider';
-    track.appendChild(glider);
-
-    // Current Mood Indicator (Visible when collapsed)
-    const toggleBtn = document.createElement('button');
-    toggleBtn.className = 'mood-orbit__toggle-btn';
-    toggleBtn.innerHTML = '<span class="mood-orbit__toggle-icon"></span>'; // Placeholder, will update
-    toggleBtn.onclick = this.toggleExpand;
-    this.element.appendChild(toggleBtn);
 
     // Mood Items
     moods.forEach(mood => {
@@ -59,15 +48,11 @@ class MoodSelector {
       btn.setAttribute('aria-label', `Switch to ${mood.label} mood`);
       btn.setAttribute('role', 'tab'); // Add role for accessibility
 
-      btn.innerHTML = `
-        <span class="mood-orbit__icon">${mood.icon}</span>
-        <span class="mood-orbit__tooltip">${mood.label}</span>
-      `;
+      btn.innerHTML = `<span class="mood-orbit__icon">${mood.icon}</span>`;
 
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         this.handleMoodSelect(mood.id);
-        this.collapse(); // Auto collapse on select
       });
 
       track.appendChild(btn);
@@ -151,9 +136,11 @@ class MoodSelector {
       if (isMatch) {
         // Update toggle button icon
         const iconEl = item.querySelector('.mood-orbit__icon');
-        const toggleIconEl = this.element.querySelector('.mood-orbit__toggle-icon');
-        if (iconEl && toggleIconEl) {
-          toggleIconEl.textContent = iconEl.textContent;
+        if (iconEl) {
+          const toggleIconEl = this.element.querySelector('.mood-orbit__toggle-icon');
+          if (toggleIconEl) {
+            toggleIconEl.textContent = iconEl.textContent;
+          }
         }
       }
     });
@@ -165,7 +152,7 @@ class MoodSelector {
   /**
    * Calculates position for the sliding background "glider"
    */
-  moveGlider() { // Renamed from moveGliderToActive
+  moveGlider() { 
     const activeItem = this.element.querySelector('.mood-orbit__item--active');
     const glider = this.element.querySelector('.mood-orbit__glider');
 
