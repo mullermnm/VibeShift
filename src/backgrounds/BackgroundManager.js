@@ -15,6 +15,8 @@ class BackgroundManager {
     this.backgroundElement = document.getElementById('background-layer');
     this.currentMood = null;
 
+    console.log('BackgroundManager initialized, background element:', this.backgroundElement);
+
     // Cache duration: 24 hours
     this.CACHE_DURATION = 24 * 60 * 60 * 1000;
   }
@@ -25,14 +27,18 @@ class BackgroundManager {
    */
   async loadBackground(moodConfig) {
     const mood = moodConfig.id;
+    console.log('loadBackground called for mood:', mood);
+    console.log('moodConfig:', moodConfig);
 
     // Check if same mood (avoid unnecessary reload)
     if (this.currentMood === mood) {
+      console.log('Same mood, skipping reload');
       return;
     }
 
     this.currentMood = mood;
     const bgConfig = moodConfig.background;
+    console.log('bgConfig:', bgConfig);
 
     // Check for user preference
     const preferredUrl = await this.getPreferredBackground(mood);
@@ -54,6 +60,8 @@ class BackgroundManager {
     // Try to fetch sample image
     try {
       console.log('Fetching sample image for query:', bgConfig.unsplashQuery);
+      console.log('Mood:', mood);
+      
       const imageUrl = await this.unsplash.fetchRandomImage(bgConfig.unsplashQuery);
 
       if (imageUrl) {
@@ -62,7 +70,7 @@ class BackgroundManager {
         await this.cacheBackground(mood, imageUrl);
         return;
       } else {
-        console.log('No sample image found');
+        console.log('No sample image found for query:', bgConfig.unsplashQuery);
       }
     } catch (error) {
       console.warn('Failed to fetch sample image:', error);
@@ -102,12 +110,15 @@ class BackgroundManager {
   async setBackground(imageUrl, config) {
     if (!this.backgroundElement) return;
 
+    console.log('Setting background image:', imageUrl);
+
     // Preload image
     const img = new Image();
     img.src = imageUrl;
 
     try {
       await this.waitForImageLoad(img);
+      console.log('Image loaded successfully');
 
       // Fade out current background
       this.backgroundElement.style.opacity = '0';
@@ -121,6 +132,7 @@ class BackgroundManager {
 
       // Fade in
       this.backgroundElement.style.opacity = '1';
+      console.log('Background image set successfully');
 
     } catch (error) {
       console.error('Failed to load background image:', error);

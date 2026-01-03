@@ -37,6 +37,8 @@ class UnsplashAPI {
    * @returns {Promise<string|null>} Image URL or null on failure
    */
   async fetchRandomImage(query) {
+    console.log('fetchRandomImage called with query:', query);
+    
     // Return sample images based on query
     const sampleImages = {
       'minimalist workspace architecture white': 'https://images.unsplash.com/photo-1586953208448-953f3686f9d5?w=1920&h=1080&fit=crop',
@@ -56,7 +58,7 @@ class UnsplashAPI {
 
     // Try to find exact match
     if (sampleImages[query]) {
-      console.log('Using sample image for query:', query);
+      console.log('✅ Using exact match sample image for query:', query);
       return sampleImages[query];
     }
 
@@ -64,31 +66,31 @@ class UnsplashAPI {
     const keys = Object.keys(sampleImages);
     for (const key of keys) {
       if (query.toLowerCase().includes(key.split(' ')[0].toLowerCase())) {
-        console.log('Using partial match sample image for query:', query, 'matched:', key);
+        console.log('✅ Using partial match sample image for query:', query, 'matched:', key);
         return sampleImages[key];
       }
     }
 
     // Try to match by mood keywords
     if (query.toLowerCase().includes('energetic')) {
-      console.log('Using energetic image for query:', query);
+      console.log('✅ Using energetic image for query:', query);
       return sampleImages['energetic'];
     }
     if (query.toLowerCase().includes('focused')) {
-      console.log('Using focused image for query:', query);
+      console.log('✅ Using focused image for query:', query);
       return sampleImages['focused'];
     }
     if (query.toLowerCase().includes('feminine')) {
-      console.log('Using feminine image for query:', query);
+      console.log('✅ Using feminine image for query:', query);
       return sampleImages['feminine'];
     }
     if (query.toLowerCase().includes('calm')) {
-      console.log('Using calm image for query:', query);
+      console.log('✅ Using calm image for query:', query);
       return sampleImages['calm'];
     }
 
     // Default fallback
-    console.log('Using default sample image for query:', query);
+    console.log('⚠️ Using default sample image for query:', query);
     return sampleImages['focused'];
   }
 
