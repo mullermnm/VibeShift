@@ -39,21 +39,21 @@ class UnsplashAPI {
   async fetchRandomImage(query) {
     console.log('🔍 fetchRandomImage called with query:', query);
     
-    // Return sample images based on query
+    // Return sample images based on query - using working direct URLs
     const sampleImages = {
-      'minimalist workspace architecture white': 'https://images.unsplash.com/photo-1586953208448-953f3686f9d5?w=1920&h=1080&fit=crop',
-      'soft aesthetic flowers pastel sky': 'https://images.unsplash.com/photo-1528722828814-77b9b83aafb2?w=1920&h=1080&fit=crop',
-      'neon city cyber dark vibrant': 'https://images.unsplash.com/photo-1519707228916-ff0ccf6322a2?w=1920&h=1080&fit=crop',
-      'nature forest zen lake mist': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop',
-      'library books minimal': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920&h=1080&fit=crop',
-      'cherry blossom pink aesthetic': 'https://images.unsplash.com/photo-1522383579892-6a5f1b4b9c7c?w=1920&h=1080&fit=crop',
-      'vibrant sunset colorful': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop',
-      'calm ocean waves peaceful': 'https://images.unsplash.com/photo-1505142468629-6a5f1b4b9c7c?w=1920&h=1080&fit=crop',
+      'minimalist workspace architecture white': 'https://picsum.photos/1920/1080?random=1',
+      'soft aesthetic flowers pastel sky': 'https://picsum.photos/1920/1080?random=2',
+      'neon city cyber dark vibrant': 'https://picsum.photos/1920/1080?random=3',
+      'nature forest zen lake mist': 'https://picsum.photos/1920/1080?random=4',
+      'library books minimal': 'https://picsum.photos/1920/1080?random=5',
+      'cherry blossom pink aesthetic': 'https://picsum.photos/1920/1080?random=6',
+      'vibrant sunset colorful': 'https://picsum.photos/1920/1080?random=7',
+      'calm ocean waves peaceful': 'https://picsum.photos/1920/1080?random=8',
       // Additional working images
-      'energetic': 'https://images.unsplash.com/photo-1519707228916-ff0ccf6322a2?w=1920&h=1080&fit=crop',
-      'focused': 'https://images.unsplash.com/photo-1586953208448-953f3686f9d5?w=1920&h=1080&fit=crop',
-      'feminine': 'https://images.unsplash.com/photo-1528722828814-77b9b83aafb2?w=1920&h=1080&fit=crop',
-      'calm': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop'
+      'energetic': 'https://picsum.photos/1920/1080?random=9',
+      'focused': 'https://picsum.photos/1920/1080?random=10',
+      'feminine': 'https://picsum.photos/1920/1080?random=11',
+      'calm': 'https://picsum.photos/1920/1080?random=12'
     };
 
     console.log('📋 Available image keys:', Object.keys(sampleImages));
