@@ -37,7 +37,7 @@ class UnsplashAPI {
    * @returns {Promise<string|null>} Image URL or null on failure
    */
   async fetchRandomImage(query) {
-    console.log('fetchRandomImage called with query:', query);
+    console.log('🔍 fetchRandomImage called with query:', query);
     
     // Return sample images based on query
     const sampleImages = {
@@ -55,6 +55,8 @@ class UnsplashAPI {
       'feminine': 'https://images.unsplash.com/photo-1528722828814-77b9b83aafb2?w=1920&h=1080&fit=crop',
       'calm': 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop'
     };
+
+    console.log('📋 Available image keys:', Object.keys(sampleImages));
 
     // Try to find exact match
     if (sampleImages[query]) {
